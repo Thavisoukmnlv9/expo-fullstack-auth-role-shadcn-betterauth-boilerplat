@@ -3,8 +3,8 @@ import { router } from "expo-router";
 
 export function goLogin() {
   if (Platform.OS === "web") {
-    if (typeof window !== "undefined") {
-      window.location.href = "/auth/login";
+    if (typeof (globalThis as any).window !== "undefined") {
+      (globalThis as any).window.location.href = "/auth/login";
     } else {
       router.replace("/(public)/login");
     }

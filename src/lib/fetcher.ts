@@ -1,7 +1,7 @@
 import { confirm, toast } from "@/lib/ui";
-import { goLogin } from "@/lib/router";
 import { ENV } from "@/lib/env";
 import { auth } from "@/src/auth/auth";
+import { goLogin } from "./router";
 
 type ApiErrorShape = { message?: string; error?: string } | null;
 

@@ -25,32 +25,32 @@ export default function AdminUserForm({ userId }: { userId: string }) {
   return (
     <View className="gap-4">
       {isFetching && <Text>Loading user…</Text>}
-      <Input 
-        placeholder="Name" 
-        onChangeText={(t: string) => setValue("name", t)} 
+      <Input
+        placeholder="Name"
+        onChangeText={(t: string) => setValue("name", t)}
         returnKeyType="next"
         autoCapitalize="words"
-        {...register("name")} 
+        {...register("name")}
       />
       {errors.name && <Text className="text-red-500">{errors.name.message}</Text>}
-      <Input 
-        placeholder="Email" 
-        onChangeText={(t: string) => setValue("email", t)} 
+      <Input
+        placeholder="Email"
+        onChangeText={(t: string) => setValue("email", t)}
         keyboardType="email-address"
         returnKeyType="next"
         autoCapitalize="none"
         autoCorrect={false}
-        {...register("email")} 
+        {...register("email")}
       />
       {errors.email && <Text className="text-red-500">{errors.email.message}</Text>}
-      <Input 
-        placeholder="Role ID" 
-        onChangeText={(t: string) => setValue("roleId", t)} 
+      <Input
+        placeholder="Role ID"
+        onChangeText={(t: string) => setValue("roleId", t)}
         returnKeyType="done"
         autoCapitalize="none"
         autoCorrect={false}
         onSubmitEditing={handleSubmit(onSubmit)}
-        {...register("roleId")} 
+        {...register("roleId")}
       />
       {!!error && <Text className="text-red-500">{String((error as Error).message)}</Text>}
       <Button disabled={isPending} onPress={handleSubmit(onSubmit)}>

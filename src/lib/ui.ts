@@ -8,12 +8,10 @@ export async function confirm(opts: {
   confirmVariant?: "default" | "destructive";
 }): Promise<boolean> {
   if (Platform.OS === "web") {
-    // Check if window.confirm is available (for web platform)
-    if (typeof window !== "undefined" && window.confirm) {
-      return window.confirm(`${opts.title}\n\n${opts.description ?? ""}`);
+    if (typeof (globalThis as any).window !== "undefined" && (globalThis as any).window.confirm) {
+      return (globalThis as any).window.confirm(`${opts.title}\n\n${opts.description ?? ""}`);
     }
-    // Fallback if window.confirm is not available
-    return true; // Default to true for web fallback
+    return true;
   }
   return new Promise((resolve) => {
     Alert.alert(
@@ -30,7 +28,6 @@ export async function confirm(opts: {
 
 function showToast(type: "success" | "error" | "info", title: string, description?: string) {
   if (Platform.OS === "web") {
-    // Silent on web platform
   } else {
     Alert.alert(title, description ?? "");
   }
