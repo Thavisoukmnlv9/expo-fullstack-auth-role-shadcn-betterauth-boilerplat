@@ -85,7 +85,6 @@ export default function TicketDetailPage() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header */}
       <View className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-4">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">

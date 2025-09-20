@@ -8,7 +8,7 @@ export default function TicketsScreen() {
   const router = useRouter()
   
   const handleOpenQR = (ticket: Ticket) => {
-    router.push(`/tickets/${ticket.id}`)
+    router.push(`tickets/${ticket.id}`)
   }
 
   return (

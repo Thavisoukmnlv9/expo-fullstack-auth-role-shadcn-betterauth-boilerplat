@@ -172,42 +172,12 @@ export default function ChoosePaymentPage() {
           <>
             {/* Payment Methods */}
             <View className="space-y-4">
-              {/* Membership Card Payment Section */}
-              <View>
-                <View className="flex-row items-center mb-3">
-                  <View className="w-1 h-6 bg-yellow-400 rounded-full mr-3" />
-                  <Text className="text-lg font-bold text-gray-900">Membership Card Payment</Text>
-                </View>
-                
-                <TouchableOpacity
-                  onPress={() => handlePaymentMethod('MEMBERSHIP_CARD')}
-                  disabled={loading}
-                  className="bg-gray-800 rounded-2xl p-4 shadow-lg active:bg-gray-700"
-                >
-                  <View className="flex-row items-center justify-between">
-                    <View className="flex-row items-center">
-                      <View className="w-12 h-8 bg-red-500 rounded-sm items-center justify-center mr-3">
-                        <Text className="text-white text-xs font-bold">CARD</Text>
-                      </View>
-                      <View>
-                        <Text className="text-gray-300 text-sm font-medium">MEMBERSHIP CARD</Text>
-                        <Text className="text-white text-2xl font-bold">7,900</Text>
-                      </View>
-                    </View>
-                    <View className="w-8 h-8 bg-yellow-400 rounded-full items-center justify-center">
-                      <Text className="text-gray-800 font-bold text-sm">T</Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-
               {/* LAO QR Payment Section */}
               <View>
                 <View className="flex-row items-center mb-3">
                   <View className="w-1 h-6 bg-yellow-400 rounded-full mr-3" />
                   <Text className="text-lg font-bold text-gray-900">LAO QR Payment</Text>
                 </View>
-                
                 <TouchableOpacity
                   onPress={() => handlePaymentMethod('LAO_QR')}
                   disabled={loading}
@@ -235,7 +205,6 @@ export default function ChoosePaymentPage() {
                   <View className="w-1 h-6 bg-yellow-400 rounded-full mr-3" />
                   <Text className="text-lg font-bold text-gray-900">Bank, Wallet, Phone Payment</Text>
                 </View>
-                
                 <TouchableOpacity
                   onPress={() => handlePaymentMethod('BANK_WALLET_PHONE')}
                   disabled={loading}

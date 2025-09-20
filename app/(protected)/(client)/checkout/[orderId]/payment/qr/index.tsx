@@ -54,7 +54,7 @@ export default function QRPaymentPage() {
         try {
           // Mock API call - replace with actual implementation
           const status = Math.random() > 0.8 ? 'succeeded' : 'requires_payment';
-          
+
           if (status === 'succeeded') {
             clearInterval(interval);
             // Mock API call to issue ticket
@@ -84,7 +84,7 @@ export default function QRPaymentPage() {
     try {
       // Mock API call to create new payment intent
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       const newExpiresAt = new Date(Date.now() + 60000).toISOString();
       setPaymentIntent(prev => prev ? { ...prev, expiresAt: newExpiresAt, status: 'requires_payment' } : null);
       setTimeLeft(60);
@@ -149,7 +149,7 @@ export default function QRPaymentPage() {
               Please scan this QR code to pay and receive your pass
             </Text>
           </View>
-          
+
           <View className="items-center mb-4">
             <View className="bg-yellow-400 p-6 rounded-2xl border-4 border-yellow-300 shadow-lg">
               {paymentIntent.qrImageDataUrl ? (
@@ -167,7 +167,7 @@ export default function QRPaymentPage() {
               )}
             </View>
           </View>
-          
+
           <Text className="text-center text-sm text-gray-600 mb-2">
             Pay via LAO QR
           </Text>
@@ -179,32 +179,32 @@ export default function QRPaymentPage() {
         {/* Bill Details */}
         <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
           <Text className="text-lg font-bold text-gray-900 mb-4">Bill Details</Text>
-          
+
           <View className="space-y-4">
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Bill number:</Text>
               <Text className="font-medium text-gray-900">{paymentIntent.id}</Text>
             </View>
-            
+
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Draw No: 110</Text>
               <Text className="text-gray-600">Buy time: {new Date(paymentIntent.createdAt).toLocaleString()}</Text>
             </View>
-            
+
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Total amount</Text>
               <Text className="font-bold text-gray-900 text-lg">
                 ₭{paymentIntent.amount.toLocaleString()}
               </Text>
             </View>
-            
+
             <View className="flex-row justify-between">
               <Text className="text-gray-600 ml-4">Discount</Text>
               <View className="bg-gray-100 px-3 py-1 rounded-lg">
                 <Text className="font-medium text-gray-700">-0%</Text>
               </View>
             </View>
-            
+
             <View className="flex-row justify-between pt-2 border-t border-gray-100">
               <Text className="text-gray-600 font-medium">Total paid</Text>
               <Text className="font-bold text-gray-900 text-lg">
