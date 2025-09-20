@@ -63,7 +63,7 @@ export default function PackageDetailScreen() {
                     text: 'Confirm',
                     onPress: () => {
                         Alert.alert('Success', 'Booking confirmed!')
-                        router.push('/packages')
+                        router.push('/(protected)/(client)/packages/page')
                     }
                 }
             ]
@@ -97,14 +97,14 @@ export default function PackageDetailScreen() {
                     />
                     <MetaChipsRow packageData={packageData} />
                     <View className="px-4 py-2 flex-row justify-center gap-2 bg-white rounded-full w-fit mx-auto">
-                        <Pressable className={ activeTab === 'overview' ? "bg-orange-500  rounded-full px-4 py-2" : "bg-transparent  rounded-full px-4 py-2"} onPress={() => setActiveTab('overview')}>
-                            <Text className={ activeTab === 'overview' ? "text-white font-medium" : "text-gray-900 font-medium"}>Overview</Text>
+                        <Pressable className={activeTab === 'overview' ? "bg-orange-500  rounded-full px-4 py-2" : "bg-transparent  rounded-full px-4 py-2"} onPress={() => setActiveTab('overview')}>
+                            <Text className={activeTab === 'overview' ? "text-white font-medium" : "text-gray-900 font-medium"}>Overview</Text>
                         </Pressable>
-                        <Pressable className={ activeTab === 'detail' ? "bg-orange-500  rounded-full px-4 py-2" : "bg-transparent  rounded-full px-4 py-2"} onPress={() => setActiveTab('detail')}>
-                            <Text className={ activeTab === 'detail' ? "text-white font-medium" : "text-gray-900 font-medium"}>Detail</Text>
+                        <Pressable className={activeTab === 'detail' ? "bg-orange-500  rounded-full px-4 py-2" : "bg-transparent  rounded-full px-4 py-2"} onPress={() => setActiveTab('detail')}>
+                            <Text className={activeTab === 'detail' ? "text-white font-medium" : "text-gray-900 font-medium"}>Detail</Text>
                         </Pressable>
-                        <Pressable className={ activeTab === 'reviews' ? "bg-orange-500  rounded-full px-4 py-2" : "bg-transparent  rounded-full px-4 py-2"} onPress={() => setActiveTab('reviews')}>
-                            <Text className={ activeTab === 'reviews' ? "text-white font-medium" : "text-gray-900 font-medium"}>Reviews</Text>
+                        <Pressable className={activeTab === 'reviews' ? "bg-orange-500  rounded-full px-4 py-2" : "bg-transparent  rounded-full px-4 py-2"} onPress={() => setActiveTab('reviews')}>
+                            <Text className={activeTab === 'reviews' ? "text-white font-medium" : "text-gray-900 font-medium"}>Reviews</Text>
                         </Pressable>
                     </View>
                     {activeTab === 'overview' && (

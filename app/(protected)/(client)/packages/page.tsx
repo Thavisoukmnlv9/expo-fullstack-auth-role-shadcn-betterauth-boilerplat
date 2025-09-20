@@ -32,7 +32,7 @@ export default function PackagesScreen() {
 
   const handlePlacePress = (place: FeaturedPlace) => {
     // Navigate to package detail page
-    router.push(`/package-detail/${place.id}`)
+    router.push(`/(protected)/(client)/packages/show/:id${place.id}`)
   }
 
   const handleBuyNow = (place: FeaturedPlace) => {
@@ -64,15 +64,15 @@ export default function PackagesScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <CategoryChips 
+        <CategoryChips
           categories={categories}
           onCategorySelect={handleCategorySelect}
         />
 
-        <SectionHeader 
-          title="All Packages" 
+        <SectionHeader
+          title="All Packages"
         />
-        
+
         <View className="px-4">
           <View className="flex-row flex-wrap justify-between">
             {filteredPlaces.map((place) => (

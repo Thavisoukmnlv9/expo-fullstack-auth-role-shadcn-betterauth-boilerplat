@@ -61,7 +61,7 @@ export default function ClientHome() {
   }
 
   const handlePlacePress = (place: FeaturedPlace) => {
-    router.push(`/(protected)/(client)/packages?highlight=${place.id}`)
+    router.push(`/(protected)/(client)/packages/show/:id${place.id}`)
   }
 
   const handleSeeAllPromotions = () => {
@@ -69,7 +69,7 @@ export default function ClientHome() {
   }
 
   const handleSeeAllPlaces = () => {
-    router.push('/(protected)/(client)/packages')
+    router.push('/(protected)/(client)/packages/page')
   }
 
   return (
@@ -90,7 +90,7 @@ export default function ClientHome() {
               onSearch={handleSearch}
             />
           </View>
-            <SectionHeader
+              <SectionHeader
               title="Promotions"
               actionText="See all"
               onAction={handleSeeAllPromotions}

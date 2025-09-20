@@ -39,7 +39,7 @@ export default function ClientLayout() {
           }}
         />
         <Tabs.Screen
-          name="packages"
+          name="packages/page"
           options={{
             title: "Packages",
             tabBarIcon: ({ color, size }) => <Compass size={size} color={color} />,
@@ -57,6 +57,15 @@ export default function ClientLayout() {
           options={{
             title: "Account",
             tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="packages/show/[id]/page"
+          options={{
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
           }}
         />
       </Tabs>
