@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert, Share } from 'react-native';
+import{ useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Alert, Share, SafeAreaView } from 'react-native';
+
 import { useLocalSearchParams, router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArrowLeft, Share as ShareIcon, QrCode, MapPin, CheckCircle, XCircle } from 'lucide-react-native';
 import { Ticket } from '@/src/types/checkout';
 import { mockCheckoutData } from '@/src/mocks/checkout';
-import QRCode from 'react-native-qrcode-svg';
 
 export default function TicketDetailPage() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
@@ -133,12 +132,12 @@ export default function TicketDetailPage() {
 
           <View className="items-center mb-4">
             <View className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl border-2 border-orange-200 shadow-lg">
-              <QRCode
+              {/* <QRCode
                 value={ticket.qrPublicId}
                 size={200}
                 color="#000000"
                 backgroundColor="#FFFFFF"
-              />
+              /> */}
             </View>
           </View>
 
