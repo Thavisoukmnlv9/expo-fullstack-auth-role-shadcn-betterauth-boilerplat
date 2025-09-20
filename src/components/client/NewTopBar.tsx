@@ -11,8 +11,8 @@ export default function NewTopBar({ onNotificationPress, onProfilePress }: NewTo
   return (
     <View className="px-4 py-4">
       <View className="flex-row items-center justify-between mb-4">
-        <Text className="text-gray-900 font-bold text-xl">logo</Text>
-        <View className="flex-row items-center space-x-3">
+        <Text className="text-gray-900 font-bold text-xl">TripBuddy</Text>
+        <View className="flex-row items-center gap-3">
           <Pressable
             onPress={onNotificationPress}
             className="w-10 h-10 rounded-full border border-gray-200 items-center justify-center"

@@ -12,7 +12,7 @@ export default function PlaceCard({ place, onPress }: PlaceCardProps) {
   return (
     <Pressable
       onPress={onPress}
-      className="bg-white rounded-2xl shadow-sm border border-gray-100 mb-4"
+      className="bg-white rounded-2xl  mb-4"
       accessibilityRole="button"
       accessibilityLabel={`${place.name}, ${place.location}, ${place.priceLabel}`}
     >

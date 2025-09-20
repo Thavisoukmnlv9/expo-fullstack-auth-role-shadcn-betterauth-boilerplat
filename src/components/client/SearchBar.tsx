@@ -26,7 +26,7 @@ export default function SearchBar({
   }
 
   return (
-    <View className="flex-row items-center bg-white rounded-full px-4 py-3 mx-4 mb-4 shadow-sm border border-gray-200">
+    <View className="flex-row items-center bg-zinc-100 rounded-2xl px-4 py-3 mx-4 mb-4">
       <TextInput
         className="flex-1 text-base text-gray-900"
         placeholder={placeholder}

@@ -11,7 +11,7 @@ export default function PromoCard({ promotion, onPress }: PromoCardProps) {
   return (
     <Pressable
       onPress={onPress}
-      className="bg-white rounded-3xl mr-4 w-80 shadow-lg"
+      className="bg-white rounded-3xl mr-4 w-80 mb-4 "
       accessibilityRole="button"
       accessibilityLabel={`${promotion.title}, ${promotion.subtitle}`}
     >

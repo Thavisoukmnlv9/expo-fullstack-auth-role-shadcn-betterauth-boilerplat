@@ -33,8 +33,6 @@ export default function ClientHome() {
 
   const handleSearch = (searchText: string) => {
     console.log('Searching for:', searchText)
-    // TODO: Implement actual search functionality
-    // For now, just log the search text
   }
 
   const handleCategorySelect = (categoryId: string) => {
@@ -75,64 +73,61 @@ export default function ClientHome() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 ">
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <NewTopBar
-          onNotificationPress={handleNotificationPress}
-          onProfilePress={handleProfilePress}
-        />
-
-        <SearchBar 
-          onPress={handleSearchPress}
-          onSearch={handleSearch}
-        />
-
-        {/* Promotions Section */}
-        <SectionHeader
-          title="Promotions"
-          actionText="See all"
-          onAction={handleSeeAllPromotions}
-        />
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
-        >
-          {mockPromotions.map((promotion) => (
-            <PromoCard
-              key={promotion.id}
-              promotion={promotion}
-              onPress={() => handlePromoPress(promotion)}
+        <View>
+          <View className='bg-white m-4 rounded-2xl'>
+            <NewTopBar
+              onNotificationPress={handleNotificationPress}
+              onProfilePress={handleProfilePress}
             />
-          ))}
-        </ScrollView>
-
-        {/* Category Chips */}
-        <CategoryChips
-          categories={categories}
-          onCategorySelect={handleCategorySelect}
-        />
-
-        {/* Featured Places Section */}
-        <SectionHeader
-          title="Featured Places"
-          actionText="See all"
-          onAction={handleSeeAllPlaces}
-        />
-        <View className="px-4">
-          <View className="flex-row flex-wrap justify-between">
-            {filteredPlaces.map((place, index) => (
-              <View key={place.id} className="w-[48%]">
-                <PlaceCard
-                  place={place}
-                  onPress={() => handlePlacePress(place)}
+            <SearchBar
+              onPress={handleSearchPress}
+              onSearch={handleSearch}
+            />
+          </View>
+            <SectionHeader
+              title="Promotions"
+              actionText="See all"
+              onAction={handleSeeAllPromotions}
+            />
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
+            >
+              {mockPromotions.map((promotion) => (
+                <PromoCard
+                  key={promotion.id}
+                  promotion={promotion}
+                  onPress={() => handlePromoPress(promotion)}
                 />
-              </View>
-            ))}
+              ))}
+            </ScrollView>
+          <CategoryChips
+            categories={categories}
+            onCategorySelect={handleCategorySelect}
+          />
+          <SectionHeader
+            title="Featured Places"
+            actionText="See all"
+            onAction={handleSeeAllPlaces}
+          />
+          <View className="px-4">
+            <View className="flex-row flex-wrap justify-between">
+              {filteredPlaces.map((place, index) => (
+                <View key={place.id} className="w-[48%]">
+                  <PlaceCard
+                    place={place}
+                    onPress={() => handlePlacePress(place)}
+                  />
+                </View>
+              ))}
+            </View>
           </View>
         </View>
       </ScrollView>
