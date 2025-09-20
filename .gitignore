@@ -39,3 +39,31 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Xcode
+xcuserdata/
+xcshareddata/
+*.xcuserdata
+*.xcshareddata
+*.xcuserstate
+*.xcuserdata
+*.xcshareddata
+
+# Android
+android/
+
+# iOS
+ios/
+
+# Windows
+windows/
+
+# Linux
+
+# Pak
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+bun.lock
+bun.lockb
