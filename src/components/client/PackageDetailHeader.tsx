@@ -21,10 +21,7 @@ export default function PackageDetailHeader({
         <Image
           source={{ uri: packageData.heroImage }}
           className="w-full h-64"
-          style={{
-            borderBottomLeftRadius: 24,
-            borderBottomRightRadius: 24,
-          }}
+         
           resizeMode="cover"
         />
         

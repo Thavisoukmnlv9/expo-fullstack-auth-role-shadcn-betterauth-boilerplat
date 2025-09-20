@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, SafeAreaView, Alert } from 'react-native'
+import { View, SafeAreaView, Alert, ScrollView } from 'react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { getPackageDetail, PackageDetail } from '@/src/mocks/packageDetail'
 import PackageDetailHeader from '@/src/components/client/PackageDetailHeader'
@@ -109,25 +109,27 @@ export default function PackageDetailScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-gray-100">
-            <View className="flex-1">
-                <PackageDetailHeader
-                    packageData={packageData}
-                    onBack={handleBack}
-                    onShare={handleShare}
-                />
-                <MetaChipsRow packageData={packageData} />
-                <TabsBar activeTab={activeTab} onTabChange={handleTabChange} />
+            <ScrollView>
                 <View className="flex-1">
-                    {renderTabContent()}
+                    <PackageDetailHeader
+                        packageData={packageData}
+                        onBack={handleBack}
+                        onShare={handleShare}
+                    />
+                    <MetaChipsRow packageData={packageData} />
+                    <TabsBar activeTab={activeTab} onTabChange={handleTabChange} />
+                    <View className="flex-1">
+                        {renderTabContent()}
+                    </View>
+                    <StickyTotalBar
+                        currency={currency}
+                        tier={tier}
+                        quantity={quantity}
+                        totalPrice={calculateTotal()}
+                        onBookNow={handleBookNow}
+                    />
                 </View>
-                <StickyTotalBar
-                    currency={currency}
-                    tier={tier}
-                    quantity={quantity}
-                    totalPrice={calculateTotal()}
-                    onBookNow={handleBookNow}
-                />
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
