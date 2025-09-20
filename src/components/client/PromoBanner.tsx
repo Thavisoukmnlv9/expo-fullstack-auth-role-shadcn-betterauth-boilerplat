@@ -1,35 +1,49 @@
 import React from 'react'
 import { View, Text, Pressable } from 'react-native'
-import { Image } from 'expo-image'
+import { LinearGradient } from 'expo-linear-gradient'
 
 interface PromoBannerProps {
   title: string
   body: string
-  imageUrl: string
+  buttonText?: string
   onPress?: () => void
 }
 
-export default function PromoBanner({ title, body, imageUrl, onPress }: PromoBannerProps) {
+export default function PromoBanner({ title, body, buttonText = "Claim Now", onPress }: PromoBannerProps) {
   return (
     <Pressable
       onPress={onPress}
-      className="bg-white rounded-2xl shadow-sm overflow-hidden mx-4 mb-6"
+      className="mx-4 mb-6 rounded-2xl overflow-hidden shadow-lg"
       accessibilityRole="button"
       accessibilityLabel={`${title}: ${body}`}
     >
-      <Image
-        source={{ uri: imageUrl }}
-        className="w-full h-40"
-        contentFit="cover"
-      />
-      <View className="p-5">
-        <Text className="text-zinc-800 font-bold text-lg mb-2">
-          {title}
-        </Text>
-        <Text className="text-zinc-500 text-sm">
-          {body}
-        </Text>
-      </View>
+      <LinearGradient
+        colors={['#2563EB', '#7C3AED']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        className="p-6"
+      >
+        <View className="flex-row items-center justify-between p-4">
+          <View className="flex-1 mr-6">
+            <Text className="text-white font-bold text-2xl mb-1">
+              {title}
+            </Text>
+            <Text className="text-white text-lg opacity-95">
+              {body}
+            </Text>
+          </View>
+          <Pressable
+            onPress={onPress}
+            className="bg-white border-2 border-purple-300 px-6 py-3 rounded-xl shadow-sm"
+            accessibilityRole="button"
+            accessibilityLabel={buttonText}
+          >
+            <Text className="text-black font-bold text-base">
+              {buttonText}
+            </Text>
+          </Pressable>
+        </View>
+      </LinearGradient>
     </Pressable>
   )
 }

@@ -5,7 +5,7 @@ import TopBar from '@/src/components/client/TopBar'
 import GreetingCard from '@/src/components/client/GreetingCard'
 import FeaturedPackagesSection from '@/src/components/client/FeaturedPackagesSection'
 import NearbyPlacesSection from '@/src/components/client/NearbyPlacesSection'
-import MyTicketReminder from '@/src/components/client/MyTicketReminder'
+import MyTickets from '@/src/components/client/MyTickets'
 import PromoBanner from '@/src/components/client/PromoBanner'
 import HowItWorks from '@/src/components/client/HowItWorks'
 import BottomInset from '@/src/components/client/BottomInset'
@@ -53,16 +53,16 @@ export default function ClientHome() {
         <FeaturedPackagesSection items={mockFeaturedPackages} />
         <View className="mt-6" />
         <NearbyPlacesSection items={mockNearbyPlaces} />
-        <View className="px-4 mt-6">
-          {mockTicketReminders.map((ticket) => (
-            <MyTicketReminder
-              key={ticket.id}
-              ticket={ticket}
-              onPress={handleTicketPress}
-            />
-          ))}
-        </View>
-        <PromoBanner {...mockPromo} />
+        <MyTickets
+          tickets={mockTicketReminders}
+          onTicketPress={handleTicketPress}
+          onViewAllPress={handleTicketPress}
+        />
+        <PromoBanner 
+          title={mockPromo.title}
+          body={mockPromo.body}
+          buttonText={mockPromo.buttonText}
+        />
         <HowItWorks steps={mockSteps} />
         <BottomInset />
       </ScrollView>

@@ -21,6 +21,9 @@ export type TicketReminder = {
   expiresInLabel: string;
   actionLabel?: string;
   imageUrl?: string;
+  status: 'active' | 'upcoming' | 'expired';
+  ticketType: 'Standard' | 'VIP' | 'Premium';
+  usageDetails?: string;
 };
 
 export const mockUser = { name: "Pern", city: "Vientiane" };
@@ -89,40 +92,47 @@ export const mockNearbyPlaces: NearbyPlace[] = [
 export const mockTicketReminders: TicketReminder[] = [
   {
     id: "t1",
-    packageTitle: "Pha That Luang Tour",
-    expiresInLabel: "Expires in 2 days",
-    actionLabel: "OpenQR",
-    imageUrl: "https://picsum.photos/seed/ggb/200/120",
+    packageTitle: "Luang Prabang Heritage",
+    expiresInLabel: "Expires in 1d 8h",
+    actionLabel: "QR",
+    imageUrl: "https://picsum.photos/seed/luang-prabang/200/120",
+    status: "active",
+    ticketType: "Standard",
+    usageDetails: "Museum 2/3, Temple 1/2",
   },
   {
     id: "t2",
-    packageTitle: "Pha That Luang",
-    expiresInLabel: "Expires in 5 days",
-    actionLabel: "OpenQR",
-    imageUrl: "https://picsum.photos/seed/alcatraz/200/120",
+    packageTitle: "Vientiane City Explorer",
+    expiresInLabel: "Starts in 3 days",
+    actionLabel: "QR",
+    imageUrl: "https://picsum.photos/seed/vientiane/200/120",
+    status: "upcoming",
+    ticketType: "VIP",
+    usageDetails: "All locations available",
   },
 ];
 
 export const mockPromo = {
-  title: "Summer Sale",
-  body: "Get 20% off on all packages. Limited time offer.",
+  title: "New Year Special!",
+  body: "Get 30% off on all 3-day packages",
   imageUrl: "https://picsum.photos/seed/sale/800/360",
+  buttonText: "Claim Now",
 };
 
 export const mockSteps = [
   {
     index: 1,
-    title: "Choose your package",
-    caption: "Browse and select your desired attractions.",
+    title: "Buy",
+    caption: "Choose your package",
   },
   {
     index: 2,
-    title: "Purchase online",
-    caption: "Securely purchase your tickets online.",
+    title: "Scan",
+    caption: "Show QR at locations",
   },
   {
     index: 3,
-    title: "Enjoy your visit",
-    caption: "Access tickets via the app and enjoy.",
+    title: "Enjoy",
+    caption: "Explore amazing places",
   },
 ];

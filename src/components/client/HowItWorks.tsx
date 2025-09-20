@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { Search, CreditCard, QrCode } from 'lucide-react-native'
+import { ShoppingCart, QrCode, Heart } from 'lucide-react-native'
 
 interface Step {
   index: number
@@ -12,29 +12,29 @@ interface HowItWorksProps {
   steps: Step[]
 }
 
-const stepIcons = [Search, CreditCard, QrCode]
+const stepIcons = [ShoppingCart, QrCode, Heart]
+const stepColors = ['#3B82F6', '#10B981', '#8B5CF6'] // Blue, Green, Purple
 
 export default function HowItWorks({ steps }: HowItWorksProps) {
   return (
-    <View className="px-4">
+    <View className="px-4 bg-white m-4 p-4 rounded-2xl">
       <Text className="text-zinc-800 font-bold text-xl mb-6">How it works</Text>
       {steps.map((step, index) => {
-        const IconComponent = stepIcons[index] || Search
+        const IconComponent = stepIcons[index] || ShoppingCart
+        const iconColor = stepColors[index] || '#3B82F6'
         return (
-          <View key={step.index} className="flex-row items-start mb-6">
-            <View className="w-10 h-10 bg-sky-100 rounded-full items-center justify-center mr-4 mt-1">
-              <IconComponent size={20} color="#0369a1" />
+          <View key={step.index} className="flex-row items-center mb-8">
+            <View 
+              className="w-12 h-12 rounded-full items-center justify-center mr-4"
+              style={{ backgroundColor: `${iconColor}20` }}
+            >
+              <IconComponent size={24} color={iconColor} />
             </View>
             <View className="flex-1">
-              <View className="flex-row items-center mb-2">
-                <View className="w-6 h-6 bg-sky-500 rounded-full items-center justify-center mr-3">
-                  <Text className="text-white text-sm font-bold">{step.index}</Text>
-                </View>
-                <Text className="text-zinc-800 font-bold text-base">
-                  {step.title}
-                </Text>
-              </View>
-              <Text className="text-zinc-500 text-sm ml-9">
+              <Text className="text-zinc-800 font-bold text-lg mb-1">
+                {step.title}
+              </Text>
+              <Text className="text-zinc-500 text-base">
                 {step.caption}
               </Text>
             </View>
