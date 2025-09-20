@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View, ScrollView, SafeAreaView } from 'react-native'
 import { router } from 'expo-router'
 import TopBar from '@/src/components/client/TopBar'
@@ -8,7 +8,6 @@ import NearbyPlacesSection from '@/src/components/client/NearbyPlacesSection'
 import MyTickets from '@/src/components/client/MyTickets'
 import PromoBanner from '@/src/components/client/PromoBanner'
 import HowItWorks from '@/src/components/client/HowItWorks'
-import BottomInset from '@/src/components/client/BottomInset'
 import {
   mockUser,
   mockFeaturedPackages,
@@ -22,7 +21,6 @@ export default function ClientHome() {
   const [selectedCity, setSelectedCity] = useState(mockUser.city)
 
   const handleSettings = () => {
-    // Navigate to settings or show settings modal
     console.log('Settings pressed')
   }
 
