@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, Clock, CreditCard, Smartphone } from 'lucide-react-native';
+import { ArrowLeft, Clock} from 'lucide-react-native';
 import { Order } from '@/src/types/checkout';
 import { mockCheckoutData } from '@/src/mocks/checkout';
 
