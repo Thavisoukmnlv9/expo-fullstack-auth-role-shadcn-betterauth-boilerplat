@@ -3,7 +3,7 @@ import RequireRole from "@/src/auth/middleware/RequireRole";
 
 export default function AdminLayout() {
   return (
-    <RequireRole allow={["admin"]}>
+    <RequireRole allow={["client"]}>
       <Stack screenOptions={{ headerShown: false }} />
     </RequireRole>
   );

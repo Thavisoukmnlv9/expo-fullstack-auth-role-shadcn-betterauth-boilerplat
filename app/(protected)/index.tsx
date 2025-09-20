@@ -13,7 +13,7 @@ export default function Home() {
       const userRole = roleNames[0];
       switch (userRole) {
         case "admin":
-          router.replace("/(admin)/" as any);
+          router.replace("/(client)/" as any);
           break;
         case "staff":
           router.replace("/(staff)/" as any);
