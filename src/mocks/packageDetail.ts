@@ -34,11 +34,11 @@ export const mockPackageDetail: PackageDetail = {
     score: 4.8, 
     count: 2847 
   },
-  heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+  heroImage: "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg",
   photos: [
-    "https://images.unsplash.com/photo-1526481280698-8fcc13fd1a8d",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    "https://images.unsplash.com/photo-1518684079-3c830dcef090"
+    "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg",
+    "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg",
+    "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg"
   ],
   overview: "Kuta Beach is one of the most famous beaches in Bali, known for its stunning sunsets, great surfing conditions, and vibrant beach culture. Experience the perfect blend of relaxation and adventure.",
   included: [
