@@ -1,10 +1,10 @@
-import{ useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert, Share, SafeAreaView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Alert, Share, SafeAreaView, Image } from 'react-native';
 
 import { useLocalSearchParams, router } from 'expo-router';
-import { ArrowLeft, Share as ShareIcon, QrCode, MapPin, CheckCircle, XCircle } from 'lucide-react-native';
-import { Ticket } from '@/src/types/checkout';
-import { mockCheckoutData } from '@/src/mocks/checkout';
+import { ArrowLeft, Share as ShareIcon, QrCode, MapPin } from 'lucide-react-native';
+import { Ticket } from '@/src/types/tickets';
+import { getTicketById } from '@/src/mocks/tickets';
 
 export default function TicketDetailPage() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
@@ -30,7 +30,10 @@ export default function TicketDetailPage() {
 
   // Mock data for now - replace with actual API call
   useEffect(() => {
-    setTicket(mockCheckoutData.ticket);
+    if (ticketId) {
+      const foundTicket = getTicketById(ticketId);
+      setTicket(foundTicket || null);
+    }
     setLoading(false);
   }, [ticketId]);
 
@@ -44,20 +47,11 @@ export default function TicketDetailPage() {
     });
   };
 
-  const formatRelativeTime = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = date.getTime() - now.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffDays > 0) {
-      return `${diffDays} day${diffDays > 1 ? 's' : ''} remaining`;
-    } else if (diffHours > 0) {
-      return `${diffHours} hour${diffHours > 1 ? 's' : ''} remaining`;
-    } else {
-      return 'Expired';
-    }
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
 
   const handleShare = async () => {
@@ -77,6 +71,10 @@ export default function TicketDetailPage() {
 
   const handleAddToWallet = () => {
     Alert.alert('Coming Soon', 'Add to wallet feature is not yet available.');
+  };
+
+  const handleRefreshQR = () => {
+    Alert.alert('QR Refreshed', 'Your QR code has been refreshed.');
   };
 
   if (loading || !navigationReady) {
@@ -100,207 +98,174 @@ export default function TicketDetailPage() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-4">
+    <SafeAreaView className="flex-1 bg-white">
+      {/* Header */}
+      <View className="px-4 py-4 border-b border-gray-200">
         <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <TouchableOpacity onPress={() => router.back()} className="mr-3">
-              <ArrowLeft size={24} color="white" />
-            </TouchableOpacity>
-            <View>
-              <Text className="text-xl font-bold text-white">{ticket.packageName}</Text>
-              <Text className="text-sm text-orange-100 capitalize">{ticket.tier}</Text>
-            </View>
-          </View>
-          <TouchableOpacity onPress={handleShare} className="p-2 bg-white/20 rounded-full">
-            <ShareIcon size={20} color="white" />
+          <TouchableOpacity onPress={() => router.back()} className="p-2">
+            <ArrowLeft size={24} color="#374151" />
           </TouchableOpacity>
+          <Text className="text-gray-900 font-bold text-xl">Ticket</Text>
+          <View className="w-8" />
         </View>
       </View>
 
-      <ScrollView className="flex-1 p-4">
-        {/* QR Panel */}
-        <View className="bg-white rounded-2xl p-6 mb-6 shadow-xl border border-gray-100">
-          <View className="flex-row items-center justify-center mb-4">
-            <View className="w-8 h-8 bg-orange-500 rounded-full items-center justify-center mr-3">
-              <QrCode size={16} color="white" />
-            </View>
-            <Text className="text-xl font-bold text-gray-900">
-              Your Ticket
-            </Text>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* Hero Image */}
+        <View className="relative h-48 bg-gradient-to-br from-orange-100 to-orange-200">
+          {ticket?.imageUrl && (
+            <Image 
+              source={{ uri: ticket.imageUrl }} 
+              className="w-full h-full"
+              resizeMode="cover"
+            />
+          )}
+          <View className="absolute inset-0 bg-black/20" />
+          <View className="absolute bottom-4 left-4 right-4">
+            <Text className="text-white text-2xl font-bold mb-1">{ticket?.packageName}</Text>
+            <Text className="text-white/90 text-lg">{ticket?.tier}</Text>
           </View>
-
-          <View className="items-center mb-4">
-            <View className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl border-2 border-orange-200 shadow-lg">
-              {/* <QRCode
-                value={ticket.qrPublicId}
-                size={200}
-                color="#000000"
-                backgroundColor="#FFFFFF"
-              /> */}
-            </View>
-          </View>
-
-          <Text className="text-center text-sm text-gray-600 font-medium">
-            Show this QR code at participating locations
-          </Text>
         </View>
 
-        {/* Validity Panel */}
-        <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
-          <View className="flex-row items-center mb-4">
-            <View className="w-1 h-6 bg-orange-400 rounded-full mr-3" />
-            <Text className="text-lg font-bold text-gray-900">Validity</Text>
+        {/* Ticket Details Section */}
+        <View className="px-4 py-6">
+          <Text className="text-gray-900 font-bold text-xl mb-4">Ticket Details</Text>
+          
+          <View className="bg-white rounded-2xl p-4 border border-gray-100 mb-6">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <View className="w-8 h-8 bg-orange-100 rounded-lg items-center justify-center mr-3">
+                  <QrCode size={16} color="#FF6B00" />
+                </View>
+                <View>
+                  <Text className="text-gray-900 font-bold text-lg">{ticket?.packageName}</Text>
+                  <Text className="text-gray-500 text-sm">{ticket?.tier}</Text>
+                </View>
+              </View>
+              <TouchableOpacity onPress={handleShare} className="p-2">
+                <ShareIcon size={20} color="#6B7280" />
+              </TouchableOpacity>
+            </View>
           </View>
 
-          <View className="space-y-4">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-gray-600 font-medium">Status</Text>
-              <View className="flex-row items-center">
-                <View className={`w-3 h-3 rounded-full mr-2 ${ticket.status === 'active' ? 'bg-green-500' : 'bg-red-500'
-                  }`} />
-                <Text className={`font-bold capitalize ${ticket.status === 'active' ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                  {ticket.status}
-                </Text>
+          {/* QR Code Section */}
+          <View className="mb-6">
+            <Text className="text-gray-900 font-bold text-xl mb-4">QR Code</Text>
+            
+            <View className="bg-yellow-100 rounded-3xl p-8 items-center mb-4">
+              <View className="w-48 h-48 bg-white rounded-2xl items-center justify-center mb-4">
+                <Text className="text-gray-400 text-sm">QR Code</Text>
+                <Text className="text-gray-400 text-xs mt-1">{ticket?.qrCode}</Text>
               </View>
             </View>
-
-            <View className="flex-row items-center justify-between">
-              <Text className="text-gray-600 font-medium">Activated</Text>
-              <Text className="font-bold text-gray-900">
-                {formatDate(ticket.activatedAt)}
-              </Text>
-            </View>
-
-            <View className="flex-row items-center justify-between">
-              <Text className="text-gray-600 font-medium">Expires</Text>
-              <Text className="font-bold text-gray-900">
-                {formatDate(ticket.expiresAt)}
-              </Text>
-            </View>
-
-            <View className="flex-row items-center justify-between pt-2 border-t border-gray-100">
-              <Text className="text-gray-600 font-medium">Validity</Text>
-              <Text className="font-bold text-orange-600">
-                {formatRelativeTime(ticket.expiresAt)}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Entitlements */}
-        <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
-          <View className="flex-row items-center mb-4">
-            <View className="w-1 h-6 bg-orange-400 rounded-full mr-3" />
-            <Text className="text-lg font-bold text-gray-900">Entitlements</Text>
+            
+            <Text className="text-center text-gray-600 font-medium mb-2">Scan to Enter</Text>
+            <Text className="text-center text-gray-500 text-sm mb-4">Present this code at each attraction</Text>
+            
+            <TouchableOpacity 
+              onPress={handleRefreshQR}
+              className="bg-orange-500 rounded-2xl py-3 px-6 self-end"
+            >
+              <Text className="text-white font-semibold">Refresh</Text>
+            </TouchableOpacity>
           </View>
 
-          <View className="space-y-4">
-            {ticket.entitlements.map((entitlement, index) => (
-              <View key={index} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                <View className="flex-row items-center justify-between mb-3">
-                  <Text className="font-bold text-gray-900 text-lg">{entitlement.placeName}</Text>
-                  <View className="bg-orange-100 px-3 py-1 rounded-full">
-                    <Text className="text-orange-600 font-bold text-sm">
-                      {entitlement.remainingVisits} of {entitlement.allowedVisits} remaining
-                    </Text>
-                  </View>
-                </View>
-
-                <View className="flex-row items-center justify-between">
-                  <Text className="text-sm text-gray-600 font-medium">Cooldown</Text>
-                  <Text className="text-sm text-gray-700 font-bold">
-                    {entitlement.cooldownMinutes > 0
-                      ? `${entitlement.cooldownMinutes} minutes`
-                      : 'None'
-                    }
+          {/* Validity Section */}
+          <View className="mb-6">
+            <Text className="text-gray-900 font-bold text-xl mb-4">Validity</Text>
+            
+            <View className="bg-white rounded-2xl p-4 border border-gray-100">
+              <View className="space-y-3">
+                <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
+                  <Text className="text-gray-600 font-medium">Status</Text>
+                  <Text className={`font-bold capitalize ${
+                    ticket?.status === 'active' ? 'text-green-600' : 
+                    ticket?.status === 'upcoming' ? 'text-blue-600' : 'text-gray-600'
+                  }`}>
+                    {ticket?.status}
                   </Text>
                 </View>
-
-                {entitlement.lastRedeemedAt && (
-                  <View className="flex-row items-center justify-between mt-2 pt-2 border-t border-gray-200">
-                    <Text className="text-sm text-gray-600 font-medium">Last used</Text>
-                    <Text className="text-sm text-gray-700 font-bold">
-                      {formatDate(entitlement.lastRedeemedAt)}
+                
+                {ticket?.activatedAt && (
+                  <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
+                    <Text className="text-gray-600 font-medium">Activated at</Text>
+                    <Text className="text-gray-900 font-medium">
+                      {formatDate(ticket.activatedAt)} {formatTime(ticket.activatedAt)}
                     </Text>
                   </View>
                 )}
+                
+                <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
+                  <Text className="text-gray-600 font-medium">Expires at</Text>
+                  <Text className="text-gray-900 font-medium">
+                    {formatDate(ticket?.expiresAt || '')} {formatTime(ticket?.expiresAt || '')}
+                  </Text>
+                </View>
+                
+                <View className="flex-row items-center justify-between py-2">
+                  <Text className="text-gray-600 font-medium">Validity</Text>
+                  <Text className="text-gray-900 font-medium">{ticket?.validityRule}</Text>
+                </View>
               </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Usage History */}
-        <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
-          <View className="flex-row items-center mb-4">
-            <View className="w-1 h-6 bg-orange-400 rounded-full mr-3" />
-            <Text className="text-lg font-bold text-gray-900">Usage History</Text>
+            </View>
           </View>
 
-          {ticket.redemptions.length > 0 ? (
+          {/* Entitlements Section */}
+          <View className="mb-6">
+            <Text className="text-gray-900 font-bold text-xl mb-4">Entitlements</Text>
+            
             <View className="space-y-3">
-              {ticket.redemptions.map((redemption, index) => (
-                <View key={index} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                  <View className="flex-row items-center justify-between">
+              {ticket?.entitlements.map((entitlement, index) => (
+                <View key={index} className="bg-white rounded-2xl p-4 border border-gray-100">
+                  <View className="flex-row items-center">
+                    <MapPin size={20} color="#6B7280" className="mr-3" />
                     <View className="flex-1">
-                      <Text className="font-bold text-gray-900 text-lg">{redemption.placeName}</Text>
-                      <Text className="text-sm text-gray-600 font-medium">
-                        {formatDate(redemption.ts)}
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center">
-                      {redemption.success ? (
-                        <CheckCircle size={20} color="#10B981" />
-                      ) : (
-                        <XCircle size={20} color="#EF4444" />
-                      )}
-                      <Text className={`ml-2 text-sm font-bold ${redemption.success ? 'text-green-600' : 'text-red-600'
-                        }`}>
-                        {redemption.success ? 'Success' : 'Denied'}
+                      <Text className="text-gray-900 font-medium text-lg">{entitlement.placeName}</Text>
+                      <Text className="text-gray-500 text-sm">
+                        {entitlement.remainingVisits} visits remaining
                       </Text>
                     </View>
                   </View>
                 </View>
               ))}
             </View>
-          ) : (
-            <View className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-              <Text className="text-gray-500 text-center font-medium">No usage history yet</Text>
-            </View>
-          )}
-        </View>
-
-        {/* Help & Actions */}
-        <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
-          <View className="flex-row items-center mb-4">
-            <View className="w-1 h-6 bg-orange-400 rounded-full mr-3" />
-            <Text className="text-lg font-bold text-gray-900">Help & Actions</Text>
           </View>
 
-          <View className="space-y-2">
-            <TouchableOpacity className="bg-gray-50 rounded-xl p-4 border border-gray-100 active:bg-gray-100">
-              <View className="flex-row items-center">
-                <MapPin size={20} color="#6B7280" className="mr-3" />
-                <Text className="flex-1 text-gray-900 font-medium">Where to scan</Text>
-                <Text className="text-gray-400 text-lg">›</Text>
-              </View>
-            </TouchableOpacity>
+          {/* Usage History Section */}
+          <View className="mb-6">
+            <Text className="text-gray-900 font-bold text-xl mb-4">Usage History</Text>
+            
+            <View className="space-y-3">
+              {ticket?.redemptions.map((redemption, index) => (
+                <View key={index} className="bg-white rounded-2xl p-4 border border-gray-100">
+                  <View className="flex-row items-center">
+                    <MapPin size={20} color="#6B7280" className="mr-3" />
+                    <View className="flex-1">
+                      <Text className="text-gray-900 font-medium text-lg">{redemption.placeName}</Text>
+                      <Text className="text-gray-500 text-sm">
+                        {formatDate(redemption.usedAt)} {formatTime(redemption.usedAt)}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
 
-            <TouchableOpacity onPress={handleTransfer} className="bg-gray-50 rounded-xl p-4 border border-gray-100 active:bg-gray-100">
-              <View className="flex-row items-center">
-                <ShareIcon size={20} color="#6B7280" className="mr-3" />
-                <Text className="flex-1 text-gray-900 font-medium">Transfer</Text>
-                <Text className="text-gray-400 text-lg">›</Text>
-              </View>
+          {/* Bottom Actions */}
+          <View className="flex-row space-x-3 mb-8">
+            <TouchableOpacity 
+              onPress={handleTransfer}
+              className="flex-1 bg-gray-100 rounded-2xl py-4 items-center"
+            >
+              <Text className="text-gray-700 font-semibold">Transfer Ticket</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={handleAddToWallet} className="bg-gray-50 rounded-xl p-4 border border-gray-100 active:bg-gray-100">
-              <View className="flex-row items-center">
-                <QrCode size={20} color="#6B7280" className="mr-3" />
-                <Text className="flex-1 text-gray-900 font-medium">Add to wallet</Text>
-                <Text className="text-gray-400 text-lg">›</Text>
-              </View>
+            
+            <TouchableOpacity 
+              onPress={handleAddToWallet}
+              className="flex-1 bg-orange-500 rounded-2xl py-4 items-center"
+            >
+              <Text className="text-white font-semibold">Add to Wallet</Text>
             </TouchableOpacity>
           </View>
         </View>
