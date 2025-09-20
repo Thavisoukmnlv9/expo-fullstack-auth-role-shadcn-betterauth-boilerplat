@@ -60,7 +60,7 @@ export default function ClientLayout() {
           }}
         />
         <Tabs.Screen
-          name="packages/show/[id]/page"
+          name="packages/show/[id]"
           options={{
             href: null,
             tabBarStyle: {
