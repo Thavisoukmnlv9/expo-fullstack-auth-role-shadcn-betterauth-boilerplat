@@ -26,9 +26,8 @@ export default function DetailTab({
   return (
     <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
       <View className="px-4 py-4">
-        {/* What's Included Section */}
         <View className="mb-6">
-          <Text className="text-gray-900 font-bold text-lg mb-4">What's Included</Text>
+          <Text className="text-gray-900 font-bold text-lg mb-4">What&apos;s Included</Text>
           <View className="space-y-3">
             {packageData.included.map((item, index) => (
               <View key={index} className="flex-row items-start">
@@ -41,8 +40,6 @@ export default function DetailTab({
           </View>
         </View>
       </View>
-      
-      {/* Select Options Card */}
       <SelectOptionsCard
         currency={currency}
         tier={tier}

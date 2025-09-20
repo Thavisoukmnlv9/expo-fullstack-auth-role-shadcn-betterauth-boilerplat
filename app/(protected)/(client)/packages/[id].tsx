@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { View, SafeAreaView, Alert, ScrollView } from 'react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { getPackageDetail, PackageDetail } from '@/src/mocks/packageDetail'

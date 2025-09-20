@@ -19,8 +19,8 @@ export default function StickyTotalBar({
   onBookNow
 }: StickyTotalBarProps) {
   return (
-    <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
-      <View className="flex-row items-center justify-between px-4 py-4">
+    <View className="">
+      <View className="flex-row items-center justify-between px-4 py-4 bg-white">
         {/* Total Display */}
         <View className="flex-1">
           <Text className="text-gray-500 text-sm">Total</Text>
@@ -32,7 +32,7 @@ export default function StickyTotalBar({
         {/* Book Now Button */}
         <Pressable
           onPress={onBookNow}
-          className="bg-orange-500 px-8 py-4 rounded-full shadow-lg"
+          className="bg-orange-500 px-8 py-4 rounded-full "
           accessibilityRole="button"
           accessibilityLabel="Book now"
         >

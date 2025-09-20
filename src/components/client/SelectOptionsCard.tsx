@@ -41,9 +41,9 @@ export default function SelectOptionsCard({
   }
 
   return (
-    <View className="mx-4 mb-4 bg-white rounded-3xl p-6 shadow-lg">
+    <View className="mx-4 mb-4 bg-white rounded-3xl p-6 ">
       <Text className="text-gray-900 font-bold text-lg mb-6">Select Options</Text>
-      
+
       {/* Currency Selection */}
       <View className="mb-6">
         <Text className="text-gray-700 text-sm mb-3">Currency</Text>
@@ -52,20 +52,18 @@ export default function SelectOptionsCard({
             <Pressable
               key={curr}
               onPress={() => onCurrencyChange(curr)}
-              className={`px-4 py-2 rounded-full ${
-                currency === curr
+              className={`px-4 py-2 rounded-full ${currency === curr
                   ? 'bg-orange-500'
                   : 'bg-gray-100'
-              }`}
+                }`}
               accessibilityRole="button"
               accessibilityLabel={`Select ${curr} currency`}
             >
               <Text
-                className={`font-medium text-sm ${
-                  currency === curr
+                className={`font-medium text-sm ${currency === curr
                     ? 'text-white'
                     : 'text-gray-700'
-                }`}
+                  }`}
               >
                 {curr}
               </Text>
@@ -77,25 +75,23 @@ export default function SelectOptionsCard({
       {/* Tier Selection */}
       <View className="mb-6">
         <Text className="text-gray-700 text-sm mb-3">Select Tier</Text>
-        <View className="flex-row space-x-2">
+        <View className="flex-row gap-x-2">
           {tiers.map((tierOption) => (
             <Pressable
               key={tierOption.key}
               onPress={() => onTierChange(tierOption.key)}
-              className={`flex-1 py-3 rounded-full ${
-                tier === tierOption.key
+              className={`flex-1 py-3 rounded-full ${tier === tierOption.key
                   ? 'bg-orange-500'
                   : 'bg-gray-100'
-              }`}
+                }`}
               accessibilityRole="button"
               accessibilityLabel={`Select ${tierOption.label} tier`}
             >
               <Text
-                className={`text-center font-medium text-sm ${
-                  tier === tierOption.key
+                className={`text-center font-medium text-sm ${tier === tierOption.key
                     ? 'text-white'
                     : 'text-gray-700'
-                }`}
+                  }`}
               >
                 {tierOption.label}
               </Text>
@@ -105,44 +101,42 @@ export default function SelectOptionsCard({
       </View>
 
       {/* Quantity Stepper */}
-      <View>
+      <View className="">
         <Text className="text-gray-700 text-sm mb-3">Quantity</Text>
-        <View className="flex-row items-center justify-center space-x-4">
+        <View className="flex-row items-left justify-left gap-2">
           <Pressable
             onPress={handleQuantityDecrease}
             disabled={quantity <= 1}
-            className={`w-10 h-10 rounded-full border-2 items-center justify-center ${
-              quantity <= 1
+            className={`w-10 h-10 rounded-full border-2 items-center justify-center ${quantity <= 1
                 ? 'border-gray-300'
                 : 'border-gray-400'
-            }`}
+              }`}
             accessibilityRole="button"
             accessibilityLabel="Decrease quantity"
           >
-            <Minus 
-              size={20} 
-              color={quantity <= 1 ? '#D1D5DB' : '#6B7280'} 
+            <Minus
+              size={20}
+              color={quantity <= 1 ? '#D1D5DB' : '#6B7280'}
             />
           </Pressable>
-          
-          <Text className="text-gray-900 font-bold text-lg min-w-[20px] text-center">
+
+          <Text className="text-gray-900 font-bold text-2xl min-w-[20px] text-center mt-1">
             {quantity}
           </Text>
-          
+
           <Pressable
             onPress={handleQuantityIncrease}
             disabled={quantity >= 9}
-            className={`w-10 h-10 rounded-full border-2 items-center justify-center ${
-              quantity >= 9
+            className={`w-10 h-10 rounded-full border-2 items-center justify-center ${quantity >= 9
                 ? 'border-gray-300'
                 : 'border-gray-400'
-            }`}
+              }`}
             accessibilityRole="button"
             accessibilityLabel="Increase quantity"
           >
-            <Plus 
-              size={20} 
-              color={quantity >= 9 ? '#D1D5DB' : '#6B7280'} 
+            <Plus
+              size={20}
+              color={quantity >= 9 ? '#D1D5DB' : '#6B7280'}
             />
           </Pressable>
         </View>

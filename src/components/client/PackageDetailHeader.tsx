@@ -9,10 +9,10 @@ interface PackageDetailHeaderProps {
   onShare: () => void
 }
 
-export default function PackageDetailHeader({ 
-  packageData, 
-  onBack, 
-  onShare 
+export default function PackageDetailHeader({
+  packageData,
+  onBack,
+  onShare
 }: PackageDetailHeaderProps) {
   return (
     <View className="relative">
@@ -21,10 +21,9 @@ export default function PackageDetailHeader({
         <Image
           source={{ uri: packageData.heroImage }}
           className="w-full h-64"
-         
           resizeMode="cover"
         />
-        
+
         {/* Overlay Buttons */}
         <View className="absolute top-12 left-4 right-4 flex-row justify-between">
           <Pressable
@@ -35,7 +34,7 @@ export default function PackageDetailHeader({
           >
             <ArrowLeft size={20} color="#374151" />
           </Pressable>
-          
+
           <Pressable
             onPress={onShare}
             className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-lg"
@@ -45,7 +44,7 @@ export default function PackageDetailHeader({
             <Share2 size={20} color="#374151" />
           </Pressable>
         </View>
-        
+
         {/* Rating Pill */}
         <View className="absolute bottom-4 left-4">
           <View className="bg-white px-3 py-2 rounded-full flex-row items-center shadow-lg">
