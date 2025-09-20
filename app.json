@@ -6,7 +6,10 @@
     "scheme": "tripbuddy",
     "orientation": "portrait",
     "icon": "./assets/logo/tripbuddy.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
+    "privacy": "public",
+    "description": "TripBuddy - Your ultimate travel companion for order management and QR code scanning",
+    "keywords": ["travel", "orders", "qr", "scanner", "management"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -19,8 +22,15 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.tripbuddy.app",
       "deploymentTarget": "17.0",
+      "buildNumber": "1",
       "infoPlist": {
-        "NSCameraUsageDescription": "This app needs access to camera to scan QR codes for order management."
+        "NSCameraUsageDescription": "TripBuddy needs camera access to scan QR codes for order management and tracking.",
+        "NSMicrophoneUsageDescription": "TripBuddy needs microphone access for video recording and communication features.",
+        "NSLocationWhenInUseUsageDescription": "TripBuddy needs location access to provide location-based order scanning and tracking.",
+        "NSLocationAlwaysUsageDescription": "TripBuddy needs location access to provide location-based order scanning and tracking.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "TripBuddy needs location access to provide location-based order scanning and tracking.",
+        "NSPhotoLibraryUsageDescription": "TripBuddy needs photo library access to save and manage order-related images.",
+        "NSPhotoLibraryAddUsageDescription": "TripBuddy needs photo library access to save order-related images and documents."
       }
     },
     "android": {
@@ -31,14 +41,25 @@
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO"
       ],
       "package": "com.tripbuddy.app",
+      "versionCode": 1,
+      "compileSdkVersion": 34,
+      "targetSdkVersion": 34,
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/adaptive-icon.png"
+      "favicon": "./assets/adaptive-icon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
@@ -48,12 +69,32 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "cameraPermissionAndroid": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermissionAndroid": "Allow $(PRODUCT_NAME) to access your microphone",
+          "cameraPermissionIOS": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermissionIOS": "Allow $(PRODUCT_NAME) to access your microphone",
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to access your location",
+          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to access your location",
+          "recordAudioIOS": true,
           "recordAudioAndroid": true
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4775233f-735a-412b-a512-16269691b110"
+      }
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
