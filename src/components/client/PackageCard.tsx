@@ -12,7 +12,7 @@ export default function PackageCard({ package: pkg, onPress }: PackageCardProps)
   return (
     <Pressable
       onPress={onPress}
-      className="bg-white border border-zinc-200 rounded-2xl mr-4 w-80"
+      className="bg-white rounded-2xl mr-4 w-80"
       accessibilityRole="button"
       accessibilityLabel={`${pkg.title}, ${pkg.durationLabel}, ${pkg.priceLabel}`}
     >

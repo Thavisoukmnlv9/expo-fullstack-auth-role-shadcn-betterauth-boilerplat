@@ -12,7 +12,7 @@ export default function PlaceItem({ place, onPress }: PlaceItemProps) {
   return (
     <Pressable
       onPress={onPress}
-      className="bg-sky-100 rounded-2xl p-4 mb-3 flex-row items-center"
+      className="bg-white rounded-2xl p-4 mb-3 flex-row items-center"
       accessibilityRole="button"
       accessibilityLabel={`${place.name}, ${place.category}, ${place.distanceLabel} away`}
     >
