@@ -32,7 +32,7 @@ export default function PackagesScreen() {
 
   const handlePlacePress = (place: FeaturedPlace) => {
     // Navigate to package detail page
-    router.push(`/packages/${place.id}`)
+    router.push(`/package-detail/${place.id}`)
   }
 
   const handleBuyNow = (place: FeaturedPlace) => {
