@@ -34,7 +34,8 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.tripbuddy.app"
+      "package": "com.tripbuddy.app",
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"
