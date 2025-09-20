@@ -31,14 +31,8 @@ export default function PackagesScreen() {
   }
 
   const handlePlacePress = (place: FeaturedPlace) => {
-    Alert.alert(
-      'View Details',
-      `Viewing details for ${place.name}`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Buy Now', onPress: () => handleBuyNow(place) }
-      ]
-    )
+    // Navigate to package detail page
+    router.push(`/packages/${place.id}`)
   }
 
   const handleBuyNow = (place: FeaturedPlace) => {

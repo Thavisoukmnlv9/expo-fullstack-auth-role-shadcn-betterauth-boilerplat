@@ -20,7 +20,10 @@ module.exports = {
         muted: { DEFAULT: "rgb(244 244 245)", foreground: "rgb(113 113 122)" },
         accent: { DEFAULT: "rgb(244 244 245)", foreground: "rgb(23 23 23)" },
         destructive: { DEFAULT: "rgb(239 68 68)", foreground: "rgb(255 255 255)" },
-        card: { DEFAULT: "rgb(255 255 255)", foreground: "rgb(23 23 23)" }
+        card: { DEFAULT: "rgb(255 255 255)", foreground: "rgb(23 23 23)" },
+        orange: {
+          500: "#FF6B00"
+        }
       },
       borderRadius: {
         lg: "0.75rem",

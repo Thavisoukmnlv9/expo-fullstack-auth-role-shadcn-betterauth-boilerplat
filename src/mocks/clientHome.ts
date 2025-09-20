@@ -97,14 +97,14 @@ export const mockCategories: Category[] = [
 
 export const mockFeaturedPlaces: FeaturedPlace[] = [
   {
-    id: "kuta_beach",
-    name: "Kuta Beach",
+    id: "pkg_kuta_beach",
+    name: "Kuta Beach Paradise",
     category: "beach",
     location: "Bali, INA",
     rating: 4.8,
     priceLabel: "$720",
     description: "Perfect for surfing and sunset views",
-    image: "https://images.unsplash.com/photo-1530224264768-7ff8c1789d79"
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
   },
   {
     id: "borobudur",
