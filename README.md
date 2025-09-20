@@ -131,8 +131,3 @@ Built with shadcn/ui for React Native:
 ## Production
 
 Set `EXPO_PUBLIC_API_BASE` to your production API URL before building for production.
-
-
-# Open Xcode and build manually
-open ios/exposhadcnstarter.xcworkspace
-# Then press Cmd+B to build in Xcode
