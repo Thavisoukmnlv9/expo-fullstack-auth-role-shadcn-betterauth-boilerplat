@@ -1,3 +1,43 @@
+export type Promotion = {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge: string;
+  image: string;
+  cta: {
+    label: string;
+    action: string;
+  };
+};
+
+export type Category = {
+  id: string;
+  label: string;
+  icon: string;
+  active: boolean;
+};
+
+export type FeaturedPlace = {
+  id: string;
+  name: string;
+  category: string;
+  location: string;
+  rating: number;
+  priceLabel: string;
+  description: string;
+  image: string;
+};
+
+export type Ticket = {
+  id: string;
+  packageName: string;
+  tier: string;
+  status: 'active' | 'upcoming' | 'expired';
+  validity: string;
+  expiresAt: string;
+  qrPublicId: string;
+};
+
 export type PackageSummary = {
   id: string;
   title: string;
@@ -27,6 +67,88 @@ export type TicketReminder = {
 };
 
 export const mockUser = { name: "Pern", city: "Vientiane" };
+
+export const mockPromotions: Promotion[] = [
+  {
+    id: "promo_1",
+    title: "Beach Paradise Special",
+    subtitle: "Visit 3 beaches get 50% off",
+    badge: "50% OFF",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    cta: { label: "Get Coupon", action: "coupon:BEACH50" }
+  },
+  {
+    id: "promo_2",
+    title: "Mountain Escape",
+    subtitle: "Explore volcanic peaks",
+    badge: "30% OFF",
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    cta: { label: "Book Now", action: "navigate:/packages" }
+  }
+];
+
+export const mockCategories: Category[] = [
+  { id: "all", label: "All", icon: "Sparkles", active: true },
+  { id: "beach", label: "Beach", icon: "Sun", active: false },
+  { id: "mountain", label: "Mountain", icon: "Mountain", active: false },
+  { id: "food", label: "Food", icon: "Utensils", active: false },
+  { id: "family", label: "Family", icon: "Users", active: false }
+];
+
+export const mockFeaturedPlaces: FeaturedPlace[] = [
+  {
+    id: "kuta_beach",
+    name: "Kuta Beach",
+    category: "beach",
+    location: "Bali, INA",
+    rating: 4.8,
+    priceLabel: "$720",
+    description: "Perfect for surfing and sunset views",
+    image: "https://images.unsplash.com/photo-1530224264768-7ff8c1789d79"
+  },
+  {
+    id: "borobudur",
+    name: "Borobudur Temple",
+    category: "culture",
+    location: "Java, INA",
+    rating: 4.9,
+    priceLabel: "$450",
+    description: "Ancient Buddhist temple complex",
+    image: "https://images.unsplash.com/photo-1548786811-4c1d3b0a5d4e"
+  },
+  {
+    id: "bromo",
+    name: "Mount Bromo",
+    category: "mountain",
+    location: "Java, INA",
+    rating: 4.7,
+    priceLabel: "$380",
+    description: "Spectacular sunrise volcano views",
+    image: "https://images.unsplash.com/photo-1535920527003-f6c29f0f9b56"
+  },
+  {
+    id: "ubud_rice",
+    name: "Ubud Rice Terraces",
+    category: "culture",
+    location: "Bali, INA",
+    rating: 4.6,
+    priceLabel: "$290",
+    description: "Traditional rice terraces and culture",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+  }
+];
+
+export const mockTickets: Ticket[] = [
+  {
+    id: "tix_001",
+    packageName: "City Explorer 48h",
+    tier: "Standard",
+    status: "active",
+    validity: "48h after first use",
+    expiresAt: "2025-09-21T13:00:00Z",
+    qrPublicId: "QR123XYZ"
+  }
+];
 
 export const mockCities = [
   "Vientiane",

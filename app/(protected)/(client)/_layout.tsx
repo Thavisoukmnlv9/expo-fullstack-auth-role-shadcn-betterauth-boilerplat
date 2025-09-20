@@ -16,7 +16,7 @@ export default function ClientLayout() {
             paddingBottom: 8,
             height: 100,
           },
-          tabBarActiveTintColor: '#0369a1',
+          tabBarActiveTintColor: '#FF6B00',
           tabBarInactiveTintColor: '#71717a',
           tabBarLabelStyle: {
             fontSize: 12,

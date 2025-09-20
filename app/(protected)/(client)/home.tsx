@@ -1,68 +1,135 @@
 import { useState } from 'react'
-import { View, ScrollView, SafeAreaView } from 'react-native'
+import { View, ScrollView, SafeAreaView, Alert } from 'react-native'
 import { router } from 'expo-router'
-import TopBar from '@/src/components/client/TopBar'
-import GreetingCard from '@/src/components/client/GreetingCard'
-import FeaturedPackagesSection from '@/src/components/client/FeaturedPackagesSection'
-import NearbyPlacesSection from '@/src/components/client/NearbyPlacesSection'
-import MyTickets from '@/src/components/client/MyTickets'
-import PromoBanner from '@/src/components/client/PromoBanner'
-import HowItWorks from '@/src/components/client/HowItWorks'
+import NewTopBar from '@/src/components/client/NewTopBar'
+import SearchBar from '@/src/components/client/SearchBar'
+import PromoCard from '@/src/components/client/PromoCard'
+import CategoryChips from '@/src/components/client/CategoryChips'
+import PlaceCard from '@/src/components/client/PlaceCard'
+import SectionHeader from '@/src/components/client/SectionHeader'
 import {
-  mockUser,
-  mockFeaturedPackages,
-  mockNearbyPlaces,
-  mockTicketReminders,
-  mockPromo,
-  mockSteps
+  mockPromotions,
+  mockCategories,
+  mockFeaturedPlaces,
+  Category,
+  FeaturedPlace
 } from '@/src/mocks/clientHome'
 
 export default function ClientHome() {
-  const [selectedCity, setSelectedCity] = useState(mockUser.city)
+  const [categories, setCategories] = useState<Category[]>(mockCategories)
+  const [filteredPlaces, setFilteredPlaces] = useState<FeaturedPlace[]>(mockFeaturedPlaces)
 
-  const handleSettings = () => {
-    console.log('Settings pressed')
+  const handleNotificationPress = () => {
+    console.log('Notification pressed')
   }
 
-  const handleCityChange = (city: string) => {
-    setSelectedCity(city)
+  const handleProfilePress = () => {
+    router.push('/(protected)/(client)/account')
   }
 
-  const handleTicketPress = () => {
-    router.push('/(protected)/(client)/tickets')
+  const handleSearchPress = () => {
+    console.log('Search pressed')
+  }
+
+  const handleCategorySelect = (categoryId: string) => {
+    const updatedCategories = categories.map(cat => ({
+      ...cat,
+      active: cat.id === categoryId
+    }))
+    setCategories(updatedCategories)
+
+    if (categoryId === 'all') {
+      setFilteredPlaces(mockFeaturedPlaces)
+    } else {
+      const filtered = mockFeaturedPlaces.filter(place => place.category === categoryId)
+      setFilteredPlaces(filtered)
+    }
+  }
+
+  const handlePromoPress = (promotion: any) => {
+    if (promotion.cta.action.startsWith('coupon:')) {
+      const couponCode = promotion.cta.action.split(':')[1]
+      Alert.alert('Coupon Code', `Your coupon code: ${couponCode}`)
+    } else if (promotion.cta.action.startsWith('navigate:')) {
+      const route = promotion.cta.action.split(':')[1]
+      router.push(route as any)
+    }
+  }
+
+  const handlePlacePress = (place: FeaturedPlace) => {
+    router.push(`/(protected)/(client)/packages?highlight=${place.id}`)
+  }
+
+  const handleSeeAllPromotions = () => {
+    console.log('See all promotions')
+  }
+
+  const handleSeeAllPlaces = () => {
+    router.push('/(protected)/(client)/packages')
   }
 
   return (
-    <SafeAreaView className="flex-auto">
-      <View className="flex-1 bg-zinc-200">
+    <SafeAreaView className="flex-1 bg-white">
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        <NewTopBar 
+          onNotificationPress={handleNotificationPress}
+          onProfilePress={handleProfilePress}
+        />
+        
+        <SearchBar 
+          onPress={handleSearchPress}
+          onSearch={handleSearchPress}
+        />
+
+        {/* Promotions Section */}
+        <SectionHeader 
+          title="Promotions" 
+          actionText="See all" 
+          onAction={handleSeeAllPromotions}
+        />
         <ScrollView
-          className="flex-1"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 0 }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
         >
-          <TopBar userName={mockUser.name} onSettings={handleSettings} />
-          <GreetingCard
-            name={mockUser.name}
-            city={selectedCity}
-            onCityChange={handleCityChange}
-          />
-          <View className="mt-6" />
-          <FeaturedPackagesSection items={mockFeaturedPackages} />
-          <View className="mt-6" />
-          <NearbyPlacesSection items={mockNearbyPlaces} />
-          <MyTickets
-            tickets={mockTicketReminders}
-            onTicketPress={handleTicketPress}
-            onViewAllPress={handleTicketPress}
-          />
-          <PromoBanner
-            title={mockPromo.title}
-            body={mockPromo.body}
-            buttonText={mockPromo.buttonText}
-          />
-          <HowItWorks steps={mockSteps} />
+          {mockPromotions.map((promotion) => (
+            <PromoCard
+              key={promotion.id}
+              promotion={promotion}
+              onPress={() => handlePromoPress(promotion)}
+            />
+          ))}
         </ScrollView>
-      </View>
+
+        {/* Category Chips */}
+        <CategoryChips 
+          categories={categories}
+          onCategorySelect={handleCategorySelect}
+        />
+
+        {/* Featured Places Section */}
+        <SectionHeader 
+          title="Featured Places" 
+          actionText="See all" 
+          onAction={handleSeeAllPlaces}
+        />
+        <View className="px-4">
+          <View className="flex-row flex-wrap justify-between">
+            {filteredPlaces.map((place, index) => (
+              <View key={place.id} className="w-[48%]">
+                <PlaceCard
+                  place={place}
+                  onPress={() => handlePlacePress(place)}
+                />
+              </View>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
