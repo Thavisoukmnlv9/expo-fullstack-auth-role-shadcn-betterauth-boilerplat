@@ -31,6 +31,12 @@ export default function ClientHome() {
     console.log('Search pressed')
   }
 
+  const handleSearch = (searchText: string) => {
+    console.log('Searching for:', searchText)
+    // TODO: Implement actual search functionality
+    // For now, just log the search text
+  }
+
   const handleCategorySelect = (categoryId: string) => {
     const updatedCategories = categories.map(cat => ({
       ...cat,
@@ -75,20 +81,20 @@ export default function ClientHome() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <NewTopBar 
+        <NewTopBar
           onNotificationPress={handleNotificationPress}
           onProfilePress={handleProfilePress}
         />
-        
+
         <SearchBar 
           onPress={handleSearchPress}
-          onSearch={handleSearchPress}
+          onSearch={handleSearch}
         />
 
         {/* Promotions Section */}
-        <SectionHeader 
-          title="Promotions" 
-          actionText="See all" 
+        <SectionHeader
+          title="Promotions"
+          actionText="See all"
           onAction={handleSeeAllPromotions}
         />
         <ScrollView
@@ -106,15 +112,15 @@ export default function ClientHome() {
         </ScrollView>
 
         {/* Category Chips */}
-        <CategoryChips 
+        <CategoryChips
           categories={categories}
           onCategorySelect={handleCategorySelect}
         />
 
         {/* Featured Places Section */}
-        <SectionHeader 
-          title="Featured Places" 
-          actionText="See all" 
+        <SectionHeader
+          title="Featured Places"
+          actionText="See all"
           onAction={handleSeeAllPlaces}
         />
         <View className="px-4">
