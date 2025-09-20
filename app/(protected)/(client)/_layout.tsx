@@ -14,7 +14,7 @@ export default function ClientLayout() {
             borderTopColor: '#e4e4e7',
             paddingTop: 8,
             paddingBottom: 8,
-            height: 80,
+            height: 100,
           },
           tabBarActiveTintColor: '#0369a1',
           tabBarInactiveTintColor: '#71717a',
@@ -22,6 +22,12 @@ export default function ClientLayout() {
             fontSize: 12,
             fontWeight: '500',
             marginTop: 4,
+          },
+          tabBarItemStyle: {
+            position: 'relative',
+          },
+          tabBarIconStyle: {
+            position: 'relative',
           },
         }}
       >

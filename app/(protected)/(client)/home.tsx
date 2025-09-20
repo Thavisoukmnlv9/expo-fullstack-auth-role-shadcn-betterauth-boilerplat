@@ -18,7 +18,6 @@ import {
   mockSteps
 } from '@/src/mocks/clientHome'
 
-
 export default function ClientHome() {
   const [selectedCity, setSelectedCity] = useState(mockUser.city)
 
@@ -36,37 +35,36 @@ export default function ClientHome() {
   }
 
   return (
-    <SafeAreaView className="flex-1">
-    <View className="flex-1 bg-zinc-100">
-      <ScrollView
-        className="flex-1"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 0 }}
-      >
-        <TopBar userName={mockUser.name} onSettings={handleSettings} />
-        <GreetingCard
-          name={mockUser.name}
-          city={selectedCity}
-          onCityChange={handleCityChange}
-        />
-        <View className="mt-6" />
-        <FeaturedPackagesSection items={mockFeaturedPackages} />
-        <View className="mt-6" />
-        <NearbyPlacesSection items={mockNearbyPlaces} />
-        <MyTickets
-          tickets={mockTicketReminders}
-          onTicketPress={handleTicketPress}
-          onViewAllPress={handleTicketPress}
-        />
-        <PromoBanner 
-          title={mockPromo.title}
-          body={mockPromo.body}
-          buttonText={mockPromo.buttonText}
-        />
-        <HowItWorks steps={mockSteps} />
-        <BottomInset />
-      </ScrollView>
-    </View>
+    <SafeAreaView className="flex-auto">
+      <View className="flex-1 bg-zinc-200">
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 0 }}
+        >
+          <TopBar userName={mockUser.name} onSettings={handleSettings} />
+          <GreetingCard
+            name={mockUser.name}
+            city={selectedCity}
+            onCityChange={handleCityChange}
+          />
+          <View className="mt-6" />
+          <FeaturedPackagesSection items={mockFeaturedPackages} />
+          <View className="mt-6" />
+          <NearbyPlacesSection items={mockNearbyPlaces} />
+          <MyTickets
+            tickets={mockTicketReminders}
+            onTicketPress={handleTicketPress}
+            onViewAllPress={handleTicketPress}
+          />
+          <PromoBanner
+            title={mockPromo.title}
+            body={mockPromo.body}
+            buttonText={mockPromo.buttonText}
+          />
+          <HowItWorks steps={mockSteps} />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }
