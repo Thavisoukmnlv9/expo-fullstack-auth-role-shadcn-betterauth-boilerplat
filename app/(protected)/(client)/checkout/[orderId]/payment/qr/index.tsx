@@ -121,26 +121,39 @@ export default function QRPaymentPage() {
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       {/* Header */}
-      <View className="bg-white px-4 py-3 border-b border-gray-200">
-        <View className="flex-row items-center">
-          <TouchableOpacity onPress={() => router.back()} className="mr-3">
-            <ArrowLeft size={24} color="#374151" />
-          </TouchableOpacity>
-          <Text className="text-lg font-semibold text-gray-900">QR Payment</Text>
+      <View className="bg-gray-800 px-4 py-4">
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={() => router.back()} className="mr-3">
+              <ArrowLeft size={24} color="white" />
+            </TouchableOpacity>
+            <Text className="text-xl font-bold text-white">TripBuddy Payment</Text>
+          </View>
+          <View className="flex-row items-center">
+            <Text className="text-white text-sm mr-2">Recommended</Text>
+            <View className="w-6 h-6 bg-yellow-400 rounded-full items-center justify-center">
+              <Text className="text-gray-800 text-xs">💡</Text>
+            </View>
+          </View>
         </View>
       </View>
 
       <View className="flex-1 p-4">
         {/* Ticket-shaped QR Card */}
-        <View className="bg-white rounded-lg p-6 mb-6 shadow-sm border border-gray-200">
-          <Text className="text-center text-lg font-semibold text-gray-900 mb-4">
-            Please scan this QR code to pay and receive your pass
-          </Text>
+        <View className="bg-white rounded-2xl p-6 mb-6 shadow-xl border border-gray-100">
+          <View className="flex-row items-center mb-4">
+            <View className="w-8 h-8 bg-green-500 rounded-full items-center justify-center mr-3">
+              <Text className="text-white text-xs font-bold">T</Text>
+            </View>
+            <Text className="text-lg font-bold text-gray-900 flex-1">
+              Please scan this QR code to pay and receive your pass
+            </Text>
+          </View>
           
           <View className="items-center mb-4">
-            <View className="bg-yellow-100 p-4 rounded-lg border-2 border-yellow-300">
+            <View className="bg-yellow-400 p-6 rounded-2xl border-4 border-yellow-300 shadow-lg">
               {paymentIntent.qrImageDataUrl ? (
-                <View className="w-48 h-48 bg-white rounded-lg items-center justify-center">
+                <View className="w-48 h-48 bg-white rounded-xl items-center justify-center">
                   <Text className="text-gray-500">QR Image</Text>
                 </View>
               ) : (
@@ -155,48 +168,58 @@ export default function QRPaymentPage() {
             </View>
           </View>
           
-          <Text className="text-center text-sm text-gray-600 mb-4">
+          <Text className="text-center text-sm text-gray-600 mb-2">
             Pay via LAO QR
+          </Text>
+          <Text className="text-center text-xs text-gray-500">
+            LAP Net
           </Text>
         </View>
 
         {/* Bill Details */}
-        <View className="bg-white rounded-lg p-4 mb-6 shadow-sm border border-gray-200">
-          <Text className="text-lg font-semibold text-gray-900 mb-4">Bill Details</Text>
+        <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
+          <Text className="text-lg font-bold text-gray-900 mb-4">Bill Details</Text>
           
-          <View className="space-y-3">
+          <View className="space-y-4">
             <View className="flex-row justify-between">
-              <Text className="text-gray-600">Bill number</Text>
+              <Text className="text-gray-600">Bill number:</Text>
               <Text className="font-medium text-gray-900">{paymentIntent.id}</Text>
             </View>
             
             <View className="flex-row justify-between">
-              <Text className="text-gray-600">Buy time</Text>
-              <Text className="font-medium text-gray-900">
-                {new Date(paymentIntent.createdAt).toLocaleTimeString()}
-              </Text>
+              <Text className="text-gray-600">Draw No: 110</Text>
+              <Text className="text-gray-600">Buy time: {new Date(paymentIntent.createdAt).toLocaleString()}</Text>
             </View>
             
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Total amount</Text>
-              <Text className="font-semibold text-gray-900">
+              <Text className="font-bold text-gray-900 text-lg">
                 ₭{paymentIntent.amount.toLocaleString()}
               </Text>
             </View>
             
             <View className="flex-row justify-between">
-              <Text className="text-gray-600">Discount</Text>
-              <Text className="font-medium text-gray-900">-0%</Text>
+              <Text className="text-gray-600 ml-4">Discount</Text>
+              <View className="bg-gray-100 px-3 py-1 rounded-lg">
+                <Text className="font-medium text-gray-700">-0%</Text>
+              </View>
+            </View>
+            
+            <View className="flex-row justify-between pt-2 border-t border-gray-100">
+              <Text className="text-gray-600 font-medium">Total paid</Text>
+              <Text className="font-bold text-gray-900 text-lg">
+                ₭{paymentIntent.amount.toLocaleString()}
+              </Text>
             </View>
           </View>
         </View>
 
         {/* Warning Panel */}
         {!isExpired && (
-          <View className="bg-pink-50 border border-pink-200 border-dashed rounded-lg p-4 mb-6">
+          <View className="bg-pink-50 border-2 border-pink-300 border-dashed rounded-2xl p-4 mb-6">
             <View className="flex-row items-center">
-              <AlertTriangle size={20} color="#EC4899" className="mr-2" />
-              <Text className="text-pink-700 font-medium flex-1">
+              <AlertTriangle size={20} color="#EC4899" className="mr-3" />
+              <Text className="text-pink-700 font-bold flex-1">
                 Please pay within 1 minute or the order will be cancelled
               </Text>
             </View>
@@ -205,16 +228,16 @@ export default function QRPaymentPage() {
 
         {/* Expired State */}
         {isExpired && (
-          <View className="bg-white rounded-lg p-6 mb-6 shadow-sm border border-gray-200">
-            <Text className="text-center text-gray-900 font-medium mb-2">QR Code Expired</Text>
+          <View className="bg-white rounded-2xl p-6 mb-6 shadow-lg border border-gray-100">
+            <Text className="text-center text-gray-900 font-bold mb-2">QR Code Expired</Text>
             <Text className="text-center text-gray-500 text-sm mb-4">
               This QR code has expired. You can regenerate it to continue with your payment.
             </Text>
             <TouchableOpacity
               onPress={handleRegenerateQR}
-              className="bg-orange-500 py-3 px-4 rounded-lg"
+              className="bg-orange-500 py-3 px-6 rounded-xl"
             >
-              <Text className="text-white text-center font-medium">Regenerate QR</Text>
+              <Text className="text-white text-center font-bold">Regenerate QR</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -222,10 +245,11 @@ export default function QRPaymentPage() {
         {/* Save QR Button */}
         <TouchableOpacity
           onPress={handleSaveQR}
-          className="bg-white border border-gray-300 py-3 px-4 rounded-lg flex-row items-center justify-center"
+          className="bg-yellow-400 py-4 px-6 rounded-2xl flex-row items-center justify-center shadow-lg"
         >
-          <Download size={20} color="#374151" className="mr-2" />
-          <Text className="text-gray-700 font-medium">Save QR Code</Text>
+          <Download size={20} color="#1F2937" className="mr-2" />
+          <Text className="text-gray-800 font-bold text-lg">Save QR Code</Text>
+          <Text className="text-gray-600 text-lg ml-2">→</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
