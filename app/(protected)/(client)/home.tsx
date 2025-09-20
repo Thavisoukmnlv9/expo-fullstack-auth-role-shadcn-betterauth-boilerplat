@@ -36,31 +36,29 @@ export default function ClientHome() {
 
   return (
     <View className="flex-1 bg-zinc-100">
-      <ScrollView
+      <ScrollView 
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 0 }}
       >
         <TopBar userName={mockUser.name} onSettings={handleSettings} />
-
-        <View className="mt-3" />
-
-        <GreetingCard
-          name={mockUser.name}
-          city={selectedCity}
+        
+        <GreetingCard 
+          name={mockUser.name} 
+          city={selectedCity} 
           onCityChange={handleCityChange}
         />
-
-        <View className="mt-4" />
-
+        
+        <View className="mt-6" />
+        
         <FeaturedPackagesSection items={mockFeaturedPackages} />
-
-        <View className="mt-4" />
-
+        
+        <View className="mt-6" />
+        
         <NearbyPlacesSection items={mockNearbyPlaces} />
-
+        
         {/* Ticket Reminders Section */}
-        <View className="px-4 mt-4">
+        <View className="px-4 mt-6">
           {mockTicketReminders.map((ticket) => (
             <MyTicketReminder
               key={ticket.id}
@@ -69,11 +67,11 @@ export default function ClientHome() {
             />
           ))}
         </View>
-
+        
         <PromoBanner {...mockPromo} />
-
+        
         <HowItWorks steps={mockSteps} />
-
+        
         <BottomInset />
       </ScrollView>
     </View>

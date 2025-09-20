@@ -11,7 +11,7 @@ interface GreetingCardProps {
 export default function GreetingCard({ name, city, onCityChange }: GreetingCardProps) {
   return (
     <View className="px-4">
-      <Text className="text-zinc-800 font-bold text-xl tracking-tight mb-3">
+      <Text className="text-zinc-800 font-bold text-2xl tracking-tight mb-4">
         Welcome back, {name}
       </Text>
       <CitySelector city={city} onCityChange={onCityChange} />

@@ -18,16 +18,16 @@ export default function PlaceItem({ place, onPress }: PlaceItemProps) {
     >
       <Image
         source={{ uri: place.imageUrl }}
-        className="w-12 h-12 rounded-xl"
+        className="w-14 h-14 rounded-xl"
         contentFit="cover"
       />
       
-      <View className="flex-1 ml-3">
-        <Text className="text-zinc-500 text-[11px] mb-1">{place.distanceLabel}</Text>
-        <Text className="text-zinc-800 font-semibold text-sm mb-1" numberOfLines={1}>
+      <View className="flex-1 ml-4">
+        <Text className="text-zinc-500 text-xs mb-1">{place.distanceLabel}</Text>
+        <Text className="text-zinc-800 font-bold text-base mb-1" numberOfLines={1}>
           {place.name}
         </Text>
-        <Text className="text-zinc-500 text-xs" numberOfLines={1}>
+        <Text className="text-zinc-500 text-sm" numberOfLines={1}>
           {place.category}
         </Text>
       </View>

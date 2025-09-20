@@ -32,13 +32,13 @@ export default function CitySelector({ city, onPress, onCityChange }: CitySelect
   return (
     <Pressable
       onPress={handlePress}
-      className="bg-sky-50 border border-sky-200 rounded-full px-4 py-2 flex-row items-center space-x-2"
+      className="bg-sky-100 border border-sky-200 rounded-full px-4 py-3 flex-row items-center self-start"
       accessibilityRole="button"
       accessibilityLabel={`Select city, currently ${city}`}
     >
-      <MapPin size={16} color="#0369a1" />
-      <Text className="text-sky-800 font-medium text-sm">{city}</Text>
-      <ChevronDown size={16} color="#0369a1" />
+      <MapPin size={18} color="#0369a1" />
+      <Text className="text-sky-800 font-semibold text-base ml-2 mr-2">{city}</Text>
+      <ChevronDown size={18} color="#0369a1" />
     </Pressable>
   )
 }
