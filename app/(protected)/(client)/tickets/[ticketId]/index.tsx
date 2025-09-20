@@ -8,9 +8,26 @@ import { mockCheckoutData } from '@/src/mocks/checkout';
 import QRCode from 'react-native-qrcode-svg';
 
 export default function TicketDetailPage() {
-  const { ticketId } = useLocalSearchParams<{ ticketId: string }>();
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
+  const [navigationReady, setNavigationReady] = useState(false);
+
+  // Get search params with error handling
+  let ticketId: string | undefined;
+  try {
+    const params = useLocalSearchParams<{ ticketId: string }>();
+    ticketId = params.ticketId;
+  } catch (error) {
+    console.warn('Navigation context not ready yet:', error);
+  }
+
+  // Wait for navigation to be ready
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNavigationReady(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Mock data for now - replace with actual API call
   useEffect(() => {
@@ -63,7 +80,7 @@ export default function TicketDetailPage() {
     Alert.alert('Coming Soon', 'Add to wallet feature is not yet available.');
   };
 
-  if (loading) {
+  if (loading || !navigationReady) {
     return (
       <SafeAreaView className="flex-1 bg-white">
         <View className="flex-1 justify-center items-center">

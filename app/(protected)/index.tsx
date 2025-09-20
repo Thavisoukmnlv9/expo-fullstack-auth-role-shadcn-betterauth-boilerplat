@@ -1,15 +1,24 @@
 import { useSession } from "@/src/auth/session";
 import { View, Text, StatusBar } from "react-native";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { } from "expo-status-bar";
 
 export default function Home() {
   const { roleNames, isLoading: sessionLoading } = useSession();
   const router = useRouter();
+  const [navigationReady, setNavigationReady] = useState(false);
+
+  // Wait for navigation to be ready
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNavigationReady(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
-    if (!sessionLoading && roleNames.length > 0) {
+    if (navigationReady && !sessionLoading && roleNames.length > 0) {
       const userRole = roleNames[0];
       switch (userRole) {
         case "admin":
@@ -26,8 +35,17 @@ export default function Home() {
           break;
       }
     }
-  }, [sessionLoading, roleNames, router]);
-  if (sessionLoading) return <Text>Loading...</Text>;
+  }, [navigationReady, sessionLoading, roleNames, router]);
+
+  if (sessionLoading || !navigationReady) {
+    return (
+      <View className="flex-1 p-6">
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent className="mt-64" />
+        <Text className="text-2xl mb-4">Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 p-6">
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent className="mt-64" />
