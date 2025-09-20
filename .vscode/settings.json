@@ -1,14 +1,15 @@
 {
     "cSpell.words": [
-        "worklets",
-        "shadcn",
-        "Zod",
+        "BetterAuth",
+        "Expo",
+        "NativeWind",
         "React",
         "ReactNative",
-        "Expo",
+        "ReactQuery",
+        "shadcn",
+        "Sisak",
         "Tailwind",
-        "NativeWind",
-        "BetterAuth",
-        "ReactQuery"
+        "worklets",
+        "Zod"
     ]
 }
