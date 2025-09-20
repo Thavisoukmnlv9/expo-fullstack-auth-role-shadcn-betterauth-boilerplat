@@ -53,21 +53,30 @@ export default function PackageDetailScreen() {
     }
 
 
-    const handleBookNow = () => {
-        Alert.alert(
-            'Booking Confirmation',
-            `You are booking ${quantity} ${tier} package(s) for ${packageData?.name}`,
-            [
-                { text: 'Cancel', style: 'cancel' },
-                {
-                    text: 'Confirm',
-                    onPress: () => {
-                        Alert.alert('Success', 'Booking confirmed!')
-                        router.push('/(protected)/(client)/packages/page')
-                    }
-                }
-            ]
-        )
+    const handleBookNow = async () => {
+        if (!packageData) return;
+        
+        try {
+            // Mock API call to create order
+            const orderData = {
+                currencyCode: currency,
+                items: [{
+                    packageId: packageData.id,
+                    packagesPriceId: `${packageData.id}_${tier}_${currency.toLowerCase()}`,
+                    quantity: quantity
+                }],
+                purchaserName: 'Alice', // This would come from user session
+                purchaserEmail: 'alice@example.com' // This would come from user session
+            };
+            
+            // Mock order creation - replace with actual API call
+            const mockOrderId = 'ord_1001';
+            
+            // Navigate to checkout
+            router.push(`/checkout/${mockOrderId}/payment`);
+        } catch (error) {
+            Alert.alert('Error', 'Failed to create order. Please try again.');
+        }
     }
 
     const calculateTotal = () => {

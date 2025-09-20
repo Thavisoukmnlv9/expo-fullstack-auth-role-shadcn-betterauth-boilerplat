@@ -68,6 +68,33 @@ export default function ClientLayout() {
             },
           }}
         />
+        <Tabs.Screen
+          name="checkout/[orderId]/payment/index"
+          options={{
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="checkout/[orderId]/payment/qr/index"
+          options={{
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="tickets/[ticketId]/index"
+          options={{
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
+          }}
+        />
       </Tabs>
     </RequireRole>
   );

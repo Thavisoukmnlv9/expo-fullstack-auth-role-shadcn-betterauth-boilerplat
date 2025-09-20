@@ -1,15 +1,14 @@
 import React from 'react'
 import { View, Text, ScrollView, SafeAreaView, Pressable, Alert } from 'react-native'
+import { useRouter } from 'expo-router'
 import { QrCode } from 'lucide-react-native'
 import { mockTickets, Ticket } from '@/src/mocks/clientHome'
 
 export default function TicketsScreen() {
+  const router = useRouter()
+  
   const handleOpenQR = (ticket: Ticket) => {
-    Alert.alert(
-      'QR Code',
-      `QR Code: ${ticket.qrPublicId}`,
-      [{ text: 'OK' }]
-    )
+    router.push(`/tickets/${ticket.id}`)
   }
 
   return (

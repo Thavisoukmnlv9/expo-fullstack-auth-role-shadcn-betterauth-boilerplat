@@ -140,12 +140,12 @@ export const mockFeaturedPlaces: FeaturedPlace[] = [
 
 export const mockTickets: Ticket[] = [
   {
-    id: "tix_001",
+    id: "tix_9001",
     packageName: "City Explorer 48h",
     tier: "Standard",
     status: "active",
     validity: "48h after first use",
-    expiresAt: "2025-09-21T13:00:00Z",
+    expiresAt: "2025-09-23T02:18:00Z",
     qrPublicId: "QR123XYZ"
   }
 ];
