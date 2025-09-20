@@ -14,7 +14,7 @@ export default function NearbyPlacesSection({ items }: NearbyPlacesSectionProps)
 
   return (
     <View className="px-4">
-      <Text className="text-zinc-800 font-bold text-xl mb-4">Top Places Nearby</Text>
+      <Text className="text-zinc-800 font-bold text-xl mb-4">Top selling</Text>
       <FlatList
         data={items}
         renderItem={renderPlace}

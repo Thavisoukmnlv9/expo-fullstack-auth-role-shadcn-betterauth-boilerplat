@@ -12,18 +12,22 @@ export default function PlaceItem({ place, onPress }: PlaceItemProps) {
   return (
     <Pressable
       onPress={onPress}
-      className="bg-white rounded-2xl p-4 shadow-sm mb-3 flex-row items-center"
+      className="bg-sky-100 rounded-2xl p-4 mb-3 flex-row items-center"
       accessibilityRole="button"
       accessibilityLabel={`${place.name}, ${place.category}, ${place.distanceLabel} away`}
     >
       <Image
         source={{ uri: place.imageUrl }}
-        className="w-14 h-14 rounded-xl"
+        style={{
+          width: 48,
+          height: 48,
+          backgroundColor: '#e5e7eb',
+          borderRadius: 6,
+        }}
+        resizeMode="cover"
         contentFit="cover"
       />
-      
       <View className="flex-1 ml-4">
-        <Text className="text-zinc-500 text-xs mb-1">{place.distanceLabel}</Text>
         <Text className="text-zinc-800 font-bold text-base mb-1" numberOfLines={1}>
           {place.name}
         </Text>
