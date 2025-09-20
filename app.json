@@ -9,7 +9,15 @@
     "userInterfaceStyle": "automatic",
     "privacy": "public",
     "description": "TripBuddy - Your ultimate travel companion for order management and QR code scanning",
-    "keywords": ["travel", "orders", "qr", "scanner", "management", "ticket", "booking"],
+    "keywords": [
+      "travel",
+      "orders",
+      "qr",
+      "scanner",
+      "management",
+      "ticket",
+      "booking"
+    ],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -31,7 +39,8 @@
         "NSLocationAlwaysAndWhenInUseUsageDescription": "TripBuddy needs location access to provide location-based order scanning and tracking.",
         "NSPhotoLibraryUsageDescription": "TripBuddy needs photo library access to save and manage order-related images.",
         "NSPhotoLibraryAddUsageDescription": "TripBuddy needs photo library access to save order-related images and documents."
-      }
+      },
+      "appleTeamId": "V24A568N2K"
     },
     "android": {
       "adaptiveIcon": {
