@@ -1,28 +1,21 @@
 import React from 'react'
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, Image } from 'react-native'
 import { Settings } from 'lucide-react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 
 interface TopBarProps {
   userName: string
   onSettings?: () => void
 }
 
+const userImage = "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
+
 export default function TopBar({ userName, onSettings }: TopBarProps) {
   return (
     <View className="flex-row items-center justify-between px-4 py-4">
-      <View className="flex-row items-center">
-        <LinearGradient
-          colors={['#0ea5e9', '#0284c7']}
-          className="w-10 h-10 rounded-full items-center justify-center mr-3"
-        >
-          <Text className="text-white font-bold text-base">
-            {userName.charAt(0).toUpperCase()}
-          </Text>
-        </LinearGradient>
+      <View className="flex-row items-center gap-3">
+        <Image source={{ uri: userImage }} className="w-10 h-10 rounded-full" />
         <Text className="text-zinc-800 font-bold text-xl">Home</Text>
       </View>
-      
       <Pressable
         onPress={onSettings}
         className="p-2"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, SafeAreaView } from 'react-native'
 import { router } from 'expo-router'
 import TopBar from '@/src/components/client/TopBar'
 import GreetingCard from '@/src/components/client/GreetingCard'
@@ -18,6 +18,7 @@ import {
   mockSteps
 } from '@/src/mocks/clientHome'
 
+
 export default function ClientHome() {
   const [selectedCity, setSelectedCity] = useState(mockUser.city)
 
@@ -35,29 +36,23 @@ export default function ClientHome() {
   }
 
   return (
+    <SafeAreaView className="flex-1">
     <View className="flex-1 bg-zinc-100">
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 0 }}
       >
         <TopBar userName={mockUser.name} onSettings={handleSettings} />
-        
-        <GreetingCard 
-          name={mockUser.name} 
-          city={selectedCity} 
+        <GreetingCard
+          name={mockUser.name}
+          city={selectedCity}
           onCityChange={handleCityChange}
         />
-        
         <View className="mt-6" />
-        
         <FeaturedPackagesSection items={mockFeaturedPackages} />
-        
         <View className="mt-6" />
-        
         <NearbyPlacesSection items={mockNearbyPlaces} />
-        
-        {/* Ticket Reminders Section */}
         <View className="px-4 mt-6">
           {mockTicketReminders.map((ticket) => (
             <MyTicketReminder
@@ -67,13 +62,11 @@ export default function ClientHome() {
             />
           ))}
         </View>
-        
         <PromoBanner {...mockPromo} />
-        
         <HowItWorks steps={mockSteps} />
-        
         <BottomInset />
       </ScrollView>
     </View>
+    </SafeAreaView>
   )
 }

@@ -4,7 +4,7 @@ import { Home, Compass, Ticket, User } from "lucide-react-native";
 
 export default function ClientLayout() {
   return (
-    <RequireRole allow={["client"]}>
+    <RequireRole allow={["admin"]}>
       <Tabs
         screenOptions={{
           headerShown: false,

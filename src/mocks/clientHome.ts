@@ -23,13 +23,17 @@ export type TicketReminder = {
   imageUrl?: string;
 };
 
-export const mockUser = { name: "Sophia", city: "San Francisco, CA" };
+export const mockUser = { name: "Pern", city: "Vientiane" };
 
 export const mockCities = [
-  "San Francisco, CA",
-  "Los Angeles, CA",
-  "New York, NY",
-  "Vientiane, LA",
+  "Vientiane",
+  "Luang Prabang",
+  "Pakse",
+  "Savannakhet",
+  "Thakhek",
+  "Luang Namtha",
+  "Muang Xay",
+  "Phonsavan",
 ];
 
 export const mockFeaturedPackages: PackageSummary[] = [
