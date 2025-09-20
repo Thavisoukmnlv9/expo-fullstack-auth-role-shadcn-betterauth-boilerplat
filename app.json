@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "privacy": "public",
     "description": "TripBuddy - Your ultimate travel companion for order management and QR code scanning",
-    "keywords": ["travel", "orders", "qr", "scanner", "management"],
+    "keywords": ["travel", "orders", "qr", "scanner", "management", "ticket", "booking"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
