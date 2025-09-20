@@ -1,26 +1,24 @@
-import { useState, useEffect, useRef } from 'react'
-import { View, SafeAreaView, Alert, ScrollView } from 'react-native'
+import { useState, useEffect } from 'react'
+import { View, SafeAreaView, Alert, ScrollView, Text, Pressable } from 'react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import PagerView from 'react-native-pager-view'
 import { getPackageDetail, PackageDetail } from '@/src/mocks/packageDetail'
 import PackageDetailHeader from '@/src/components/client/PackageDetailHeader'
 import MetaChipsRow from '@/src/components/client/MetaChipsRow'
-import TabsBar, { TabType } from '@/src/components/client/TabsBar'
 import OverviewTab from '@/src/components/client/OverviewTab'
 import DetailTab from '@/src/components/client/DetailTab'
 import ReviewsTab from '@/src/components/client/ReviewsTab'
 import StickyTotalBar from '@/src/components/client/StickyTotalBar'
 import { Currency, Tier } from '@/src/components/client/SelectOptionsCard'
+import { cn } from '@/src/lib'
 
 export default function PackageDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>()
     const router = useRouter()
-    const pagerRef = useRef<PagerView>(null)
     const [packageData, setPackageData] = useState<PackageDetail | null>(null)
-    const [activeTab, setActiveTab] = useState<TabType>('overview')
     const [currency, setCurrency] = useState<Currency>('THB')
     const [tier, setTier] = useState<Tier>('vip')
     const [quantity, setQuantity] = useState(1)
+    const [activeTab, setActiveTab] = useState('overview')
 
     useEffect(() => {
         if (id) {
@@ -55,18 +53,6 @@ export default function PackageDetailScreen() {
         }
     }
 
-    const handleTabChange = (tab: TabType) => {
-        setActiveTab(tab)
-        const tabs: TabType[] = ['overview', 'detail', 'reviews']
-        const index = tabs.indexOf(tab)
-        pagerRef.current?.setPage(index)
-    }
-
-    const handlePageChange = (event: any) => {
-        const index = event.nativeEvent.position
-        const tabs: TabType[] = ['overview', 'detail', 'reviews']
-        setActiveTab(tabs[index])
-    }
 
     const handleBookNow = () => {
         Alert.alert(
@@ -100,10 +86,6 @@ export default function PackageDetailScreen() {
         )
     }
 
-    const getCurrentTabIndex = () => {
-        const tabs: TabType[] = ['overview', 'detail', 'reviews']
-        return tabs.indexOf(activeTab)
-    }
 
     return (
         <SafeAreaView className="flex-1 bg-gray-100">
@@ -115,57 +97,59 @@ export default function PackageDetailScreen() {
                         onShare={handleShare}
                     />
                     <MetaChipsRow packageData={packageData} />
-                    <TabsBar
-                        activeTab={activeTab}
-                        onTabChange={handleTabChange}
-                        tabIndex={getCurrentTabIndex()}
-                        onPageSelected={(index) => {
-                            const tabs: TabType[] = ['overview', 'detail', 'reviews']
-                            handleTabChange(tabs[index])
-                        }}
-                    />
-                    <View className="flex-1" style={{ height: 400 }}>
-                        <PagerView
-                            ref={pagerRef}
-                            style={{ flex: 1 }}
-                            initialPage={0}
-                            onPageSelected={handlePageChange}
-                        >
-                            <View key="overview">
-                                <OverviewTab
-                                    packageData={packageData}
-                                    currency={currency}
-                                    tier={tier}
-                                    quantity={quantity}
-                                    onCurrencyChange={setCurrency}
-                                    onTierChange={setTier}
-                                    onQuantityChange={setQuantity}
-                                />
-                            </View>
-                            <View key="detail">
-                                <DetailTab
-                                    packageData={packageData}
-                                    currency={currency}
-                                    tier={tier}
-                                    quantity={quantity}
-                                    onCurrencyChange={setCurrency}
-                                    onTierChange={setTier}
-                                    onQuantityChange={setQuantity}
-                                />
-                            </View>
-                            <View key="reviews">
-                                <ReviewsTab
-                                    packageData={packageData}
-                                    currency={currency}
-                                    tier={tier}
-                                    quantity={quantity}
-                                    onCurrencyChange={setCurrency}
-                                    onTierChange={setTier}
-                                    onQuantityChange={setQuantity}
-                                />
-                            </View>
-                        </PagerView>
+                    <View className="px-4 py-2 flex-row justify-center gap-2 bg-white rounded-full w-fit mx-auto">
+                        <Pressable className={cn("bg-orange-500  rounded-full px-4 py-2", activeTab === 'overview' && "bg-orange-500")} onPress={() => setActiveTab('overview')}>
+                            <Text className="text-white font-medium">Overview</Text>
+                        </Pressable>
+                        <Pressable className={cn("bg-orange-500  rounded-full px-4 py-2", activeTab === 'detail' && "bg-orange-500")} onPress={() => setActiveTab('detail')}>
+                            <Text className="text-white font-medium">Detail</Text>
+                        </Pressable>
+                        <Pressable className={cn("bg-orange-500  rounded-full px-4 py-2", activeTab === 'reviews' && "bg-orange-500")} onPress={() => setActiveTab('reviews')}>
+                            <Text className="text-white font-medium">Reviews</Text>
+                        </Pressable>
                     </View>
+                    {activeTab === 'overview' && (
+                        <OverviewTab
+                            packageData={packageData}
+                            currency={currency}
+                            tier={tier}
+                            quantity={quantity}
+                            onCurrencyChange={setCurrency}
+                            onTierChange={setTier}
+                            onQuantityChange={setQuantity}
+                        />
+                    )}
+                    {activeTab === 'detail' && (
+                        <View className="px-4 py-2">
+                            <Text className="text-gray-900 font-bold text-lg mb-4">Detail Tab</Text>
+                        </View>
+                    )}
+                    {activeTab === 'detail' && (
+                        <DetailTab
+                            packageData={packageData}
+                            currency={currency}
+                            tier={tier}
+                            quantity={quantity}
+                            onCurrencyChange={setCurrency}
+                            onTierChange={setTier}
+                            onQuantityChange={setQuantity}
+                        />
+                    )}
+
+                    <View className="px-4 py-2">
+                        <Text className="text-gray-900 font-bold text-lg mb-4">Reviews Tab</Text>
+                    </View>
+                    {activeTab === 'reviews' && (
+                        <ReviewsTab
+                            packageData={packageData}
+                            currency={currency}
+                            tier={tier}
+                            quantity={quantity}
+                            onCurrencyChange={setCurrency}
+                            onTierChange={setTier}
+                            onQuantityChange={setQuantity}
+                        />
+                    )}
                     <StickyTotalBar
                         currency={currency}
                         tier={tier}
