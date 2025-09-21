@@ -12,7 +12,7 @@ A complete React Native app template with modern tooling and authentication.
 - **@tanstack/react-query** - Server state management
 - **React Hook Form + Zod** - Form handling and validation
 - **Centralized Fetcher** - Error handling with confirm/toast
-- **RN/Web-friendly UI** - Cross-platform confirm() & toast()
+
 
 ## Project Structure
 
@@ -59,24 +59,24 @@ src/
 
 1. **Install dependencies:**
    ```bash
-   npm install
+   bun install
    ```
 
 2. **Set environment variables:**
    ```bash
    # Create .env file
-   EXPO_PUBLIC_API_BASE=https://api.tripbuddy.com
+   EXPO_PUBLIC_API_BASE=http://192.168.18.240:3000
    ```
 
 3. **Start development:**
    ```bash
    # Start Expo dev server
-   npm start
+   bun start
 
    # Run on specific platforms
-   npm run android
-   npm run ios
-   npm run web
+   bun run android
+   bun run ios
+   bun run web
    ```
 
 ## Authentication
