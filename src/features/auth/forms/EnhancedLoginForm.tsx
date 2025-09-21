@@ -157,14 +157,14 @@ export default function EnhancedLoginForm() {
           Remember me
         </Checkbox>
         <Pressable>
-          <Text className="text-primary text-sm font-medium">Forgot Password?</Text>
+          <Text className="text-orange-500 text-sm font-medium">Forgot Password?</Text>
         </Pressable>
       </View>
       {/* Login Button */}
       <Button
         disabled={isSubmitting || isLoading}
         onPress={handleSubmit(onSubmit)}
-        className="h-12 bg-[#2e70e9]"
+        className="h-12 bg-orange-500"
       >
         <Text className="text-white font-semibold text-base ">
           {isSubmitting || isLoading ? "Signing in..." : "Log In"}
