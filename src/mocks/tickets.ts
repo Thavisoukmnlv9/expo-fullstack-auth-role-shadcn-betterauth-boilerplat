@@ -1,4 +1,4 @@
-import { Ticket } from '@/src/types/tickets';
+import { Ticket } from "@/src/types/tickets";
 
 export const mockTickets: Ticket[] = [
   {
@@ -11,31 +11,32 @@ export const mockTickets: Ticket[] = [
     expiresAt: "2025-09-22T10:00:00Z",
     qrCode: "QR123VIP",
     remainingTime: "36h 24m",
-    imageUrl: "https://images.unsplash.com/photo-1506905925346-14b1e0d0b6b3?w=400&h=200&fit=crop",
+    imageUrl:
+      "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg",
     entitlements: [
-      { 
-        placeId: "pl_beach", 
-        placeName: "Kuta Beach", 
+      {
+        placeId: "pl_beach",
+        placeName: "Kuta Beach",
         remainingVisits: 2,
         allowedVisits: 3,
         cooldownMinutes: 0,
-        lastRedeemedAt: "2025-09-20T15:30:00Z"
+        lastRedeemedAt: "2025-09-20T15:30:00Z",
       },
-      { 
-        placeId: "pl_sunset", 
-        placeName: "Sunset Viewpoint", 
+      {
+        placeId: "pl_sunset",
+        placeName: "Sunset Viewpoint",
         remainingVisits: 1,
         allowedVisits: 2,
-        cooldownMinutes: 30
-      }
+        cooldownMinutes: 30,
+      },
     ],
     redemptions: [
-      { 
-        placeName: "Kuta Beach", 
+      {
+        placeName: "Kuta Beach",
         usedAt: "2025-09-20T15:30:00Z",
-        success: true
-      }
-    ]
+        success: true,
+      },
+    ],
   },
   {
     id: "tix_002",
@@ -46,28 +47,29 @@ export const mockTickets: Ticket[] = [
     activatedAt: null,
     expiresAt: "2026-01-05T00:00:00Z",
     qrCode: "QR456PREM",
-    imageUrl: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=200&fit=crop",
+    imageUrl:
+      "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg",
     entitlements: [
-      { 
-        placeId: "pl_museum", 
-        placeName: "Museum of Modern Art", 
+      {
+        placeId: "pl_museum",
+        placeName: "Museum of Modern Art",
         remainingVisits: 3,
-        allowedVisits: 3
+        allowedVisits: 3,
       },
-      { 
-        placeId: "pl_zoo", 
-        placeName: "Central Park Zoo", 
+      {
+        placeId: "pl_zoo",
+        placeName: "Central Park Zoo",
         remainingVisits: 1,
-        allowedVisits: 1
+        allowedVisits: 1,
       },
-      { 
-        placeId: "pl_empire", 
-        placeName: "Empire State Building", 
+      {
+        placeId: "pl_empire",
+        placeName: "Empire State Building",
         remainingVisits: 2,
-        allowedVisits: 2
-      }
+        allowedVisits: 2,
+      },
     ],
-    redemptions: []
+    redemptions: [],
   },
   {
     id: "tix_003",
@@ -78,35 +80,38 @@ export const mockTickets: Ticket[] = [
     activatedAt: "2025-06-10T09:00:00Z",
     expiresAt: "2025-06-13T09:00:00Z",
     qrCode: "QR789STD",
-    imageUrl: "https://images.unsplash.com/photo-1506905925346-14b1e0d0b6b3?w=400&h=200&fit=crop",
+    imageUrl:
+      "https://www.tourismlaos.org/wp-content/uploads/2019/12/that-luang-1-1030x689.jpg",
     entitlements: [
-      { 
-        placeId: "pl_volcano", 
-        placeName: "Volcano Trail", 
+      {
+        placeId: "pl_volcano",
+        placeName: "Volcano Trail",
         remainingVisits: 0,
-        allowedVisits: 1
+        allowedVisits: 1,
       },
-      { 
-        placeId: "pl_summit", 
-        placeName: "Mountain Summit", 
+      {
+        placeId: "pl_summit",
+        placeName: "Mountain Summit",
         remainingVisits: 0,
-        allowedVisits: 1
-      }
+        allowedVisits: 1,
+      },
     ],
     redemptions: [
-      { 
-        placeName: "Volcano Trail", 
+      {
+        placeName: "Volcano Trail",
         usedAt: "2025-06-11T11:15:00Z",
-        success: true
-      }
-    ]
-  }
+        success: true,
+      },
+    ],
+  },
 ];
 
-export const getTicketsByStatus = (status: 'active' | 'upcoming' | 'expired') => {
-  return mockTickets.filter(ticket => ticket.status === status);
+export const getTicketsByStatus = (
+  status: "active" | "upcoming" | "expired"
+) => {
+  return mockTickets.filter((ticket) => ticket.status === status);
 };
 
 export const getTicketById = (id: string) => {
-  return mockTickets.find(ticket => ticket.id === id);
+  return mockTickets.find((ticket) => ticket.id === id);
 };

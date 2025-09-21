@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert, Share, SafeAreaView, Image } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 
 import { useLocalSearchParams, router } from 'expo-router';
 import { ArrowLeft, Share as ShareIcon, QrCode, MapPin } from 'lucide-react-native';
@@ -9,26 +10,12 @@ import { getTicketById } from '@/src/mocks/tickets';
 export default function TicketDetailPage() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
-  const [navigationReady, setNavigationReady] = useState(false);
 
-  // Get search params with error handling
-  let ticketId: string | undefined;
-  try {
-    const params = useLocalSearchParams<{ ticketId: string }>();
-    ticketId = params.ticketId;
-  } catch (error) {
-    console.warn('Navigation context not ready yet:', error);
-  }
+  // Get search params
+  const params = useLocalSearchParams<{ ticketId: string }>();
+  const ticketId = params.ticketId;
 
-  // Wait for navigation to be ready
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setNavigationReady(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Mock data for now - replace with actual API call
+  // Load ticket data
   useEffect(() => {
     if (ticketId) {
       const foundTicket = getTicketById(ticketId);
@@ -64,20 +51,11 @@ export default function TicketDetailPage() {
       Alert.alert('Error', 'Failed to share ticket. Please try again.');
     }
   };
-
-  const handleTransfer = () => {
-    Alert.alert('Coming Soon', 'Ticket transfer feature is not yet available.');
-  };
-
-  const handleAddToWallet = () => {
-    Alert.alert('Coming Soon', 'Add to wallet feature is not yet available.');
-  };
-
   const handleRefreshQR = () => {
     Alert.alert('QR Refreshed', 'Your QR code has been refreshed.');
   };
 
-  if (loading || !navigationReady) {
+  if (loading) {
     return (
       <SafeAreaView className="flex-1 bg-white">
         <View className="flex-1 justify-center items-center">
@@ -114,8 +92,8 @@ export default function TicketDetailPage() {
         {/* Hero Image */}
         <View className="relative h-48 bg-gradient-to-br from-orange-100 to-orange-200">
           {ticket?.imageUrl && (
-            <Image 
-              source={{ uri: ticket.imageUrl }} 
+            <Image
+              source={{ uri: ticket.imageUrl }}
               className="w-full h-full"
               resizeMode="cover"
             />
@@ -130,7 +108,7 @@ export default function TicketDetailPage() {
         {/* Ticket Details Section */}
         <View className="px-4 py-6">
           <Text className="text-gray-900 font-bold text-xl mb-4">Ticket Details</Text>
-          
+
           <View className="bg-white rounded-2xl p-4 border border-gray-100 mb-6">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center">
@@ -151,18 +129,27 @@ export default function TicketDetailPage() {
           {/* QR Code Section */}
           <View className="mb-6">
             <Text className="text-gray-900 font-bold text-xl mb-4">QR Code</Text>
-            
+
             <View className="bg-yellow-100 rounded-3xl p-8 items-center mb-4">
               <View className="w-48 h-48 bg-white rounded-2xl items-center justify-center mb-4">
-                <Text className="text-gray-400 text-sm">QR Code</Text>
-                <Text className="text-gray-400 text-xs mt-1">{ticket?.qrCode}</Text>
+                <QRCode
+                  value={ticket?.qrCode || 'tripbuddy://tickets/' + ticketId}
+                  size={180}
+                  color="#000000"
+                  backgroundColor="#FFFFFF"
+                  logo={require('@/assets/adaptive-icon.png')}
+                  logoSize={40}
+                  logoBackgroundColor="transparent"
+                  logoMargin={2}
+                  logoBorderRadius={8}
+                />
               </View>
             </View>
-            
+
             <Text className="text-center text-gray-600 font-medium mb-2">Scan to Enter</Text>
             <Text className="text-center text-gray-500 text-sm mb-4">Present this code at each attraction</Text>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               onPress={handleRefreshQR}
               className="bg-orange-500 rounded-2xl py-3 px-6 self-end"
             >
@@ -173,19 +160,18 @@ export default function TicketDetailPage() {
           {/* Validity Section */}
           <View className="mb-6">
             <Text className="text-gray-900 font-bold text-xl mb-4">Validity</Text>
-            
+
             <View className="bg-white rounded-2xl p-4 border border-gray-100">
               <View className="space-y-3">
                 <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
                   <Text className="text-gray-600 font-medium">Status</Text>
-                  <Text className={`font-bold capitalize ${
-                    ticket?.status === 'active' ? 'text-green-600' : 
+                  <Text className={`font-bold capitalize ${ticket?.status === 'active' ? 'text-green-600' :
                     ticket?.status === 'upcoming' ? 'text-blue-600' : 'text-gray-600'
-                  }`}>
+                    }`}>
                     {ticket?.status}
                   </Text>
                 </View>
-                
+
                 {ticket?.activatedAt && (
                   <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
                     <Text className="text-gray-600 font-medium">Activated at</Text>
@@ -194,14 +180,14 @@ export default function TicketDetailPage() {
                     </Text>
                   </View>
                 )}
-                
+
                 <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
                   <Text className="text-gray-600 font-medium">Expires at</Text>
                   <Text className="text-gray-900 font-medium">
                     {formatDate(ticket?.expiresAt || '')} {formatTime(ticket?.expiresAt || '')}
                   </Text>
                 </View>
-                
+
                 <View className="flex-row items-center justify-between py-2">
                   <Text className="text-gray-600 font-medium">Validity</Text>
                   <Text className="text-gray-900 font-medium">{ticket?.validityRule}</Text>
@@ -213,7 +199,7 @@ export default function TicketDetailPage() {
           {/* Entitlements Section */}
           <View className="mb-6">
             <Text className="text-gray-900 font-bold text-xl mb-4">Entitlements</Text>
-            
+
             <View className="space-y-3">
               {ticket?.entitlements.map((entitlement, index) => (
                 <View key={index} className="bg-white rounded-2xl p-4 border border-gray-100">
@@ -234,7 +220,7 @@ export default function TicketDetailPage() {
           {/* Usage History Section */}
           <View className="mb-6">
             <Text className="text-gray-900 font-bold text-xl mb-4">Usage History</Text>
-            
+
             <View className="space-y-3">
               {ticket?.redemptions.map((redemption, index) => (
                 <View key={index} className="bg-white rounded-2xl p-4 border border-gray-100">
@@ -250,23 +236,6 @@ export default function TicketDetailPage() {
                 </View>
               ))}
             </View>
-          </View>
-
-          {/* Bottom Actions */}
-          <View className="flex-row space-x-3 mb-8">
-            <TouchableOpacity 
-              onPress={handleTransfer}
-              className="flex-1 bg-gray-100 rounded-2xl py-4 items-center"
-            >
-              <Text className="text-gray-700 font-semibold">Transfer Ticket</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
-              onPress={handleAddToWallet}
-              className="flex-1 bg-orange-500 rounded-2xl py-4 items-center"
-            >
-              <Text className="text-white font-semibold">Add to Wallet</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

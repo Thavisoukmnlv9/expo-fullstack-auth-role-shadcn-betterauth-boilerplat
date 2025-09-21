@@ -21,31 +21,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onOpenQR }) => {
     })
   }
 
-  const getStatusPillStyle = (status: TicketStatus) => {
-    switch (status) {
-      case 'active':
-        return 'bg-green-100 border-green-200'
-      case 'upcoming':
-        return 'bg-blue-100 border-blue-200'
-      case 'expired':
-        return 'bg-gray-100 border-gray-200'
-      default:
-        return 'bg-gray-100 border-gray-200'
-    }
-  }
-
-  const getStatusTextStyle = (status: TicketStatus) => {
-    switch (status) {
-      case 'active':
-        return 'text-green-700'
-      case 'upcoming':
-        return 'text-blue-700'
-      case 'expired':
-        return 'text-gray-700'
-      default:
-        return 'text-gray-700'
-    }
-  }
 
   return (
     <View className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-4">
@@ -55,8 +30,23 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onOpenQR }) => {
           <Text className="text-gray-900 font-bold text-lg">{ticket.packageName}</Text>
           <Text className="text-gray-500 text-sm mt-1">{ticket.tier}</Text>
         </View>
-        <View className={`px-3 py-1 rounded-full border ${getStatusPillStyle(ticket.status)}`}>
-          <Text className={`text-xs font-medium ${getStatusTextStyle(ticket.status)}`}>
+        <View 
+          style={{
+            paddingHorizontal: 12,
+            paddingVertical: 4,
+            borderRadius: 20,
+            borderWidth: 1,
+            ...(ticket.status === 'active' ? { backgroundColor: '#dcfce7', borderColor: '#bbf7d0' } :
+                ticket.status === 'upcoming' ? { backgroundColor: '#dbeafe', borderColor: '#bfdbfe' } :
+                { backgroundColor: '#f3f4f6', borderColor: '#e5e7eb' })
+          }}
+        >
+          <Text style={{
+            fontSize: 12,
+            fontWeight: '500',
+            color: ticket.status === 'active' ? '#15803d' :
+                   ticket.status === 'upcoming' ? '#1d4ed8' : '#374151'
+          }}>
             {ticket.status.toUpperCase()}
           </Text>
         </View>
