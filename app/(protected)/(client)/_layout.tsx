@@ -1,10 +1,12 @@
 import { Tabs } from "expo-router";
 import RequireRole from "@/src/auth/middleware/RequireRole";
 import { Home, Compass, Ticket, User } from "lucide-react-native";
+import { View } from "react-native";
 
 export default function ClientLayout() {
   return (
     <RequireRole allow={["admin", "staff", "client"]}>
+      <View className="flex-1 bg-black">
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -96,6 +98,7 @@ export default function ClientLayout() {
           }}
         />
       </Tabs>
+      </View>
     </RequireRole>
   );
 }
