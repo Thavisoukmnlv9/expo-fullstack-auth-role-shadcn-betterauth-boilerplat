@@ -1,7 +1,7 @@
 import { useSession } from "@/src/auth/session";
 import { View, Text, StatusBar, Animated, Easing } from "react-native";
 import { useRouter } from "expo-router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { } from "expo-status-bar";
 import { LoadingSpinner, PulsingDots } from "@/src/components/ui/loading-spinner";
 
@@ -10,67 +10,81 @@ export default function Home() {
   const router = useRouter();
   const [navigationReady, setNavigationReady] = useState(false);
 
-  // Animation values
+  // Animation values - memoized to prevent recreation
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
+
+  // Memoize animation configuration to prevent recreation
+  const animationConfig = useMemo(() => ({
+    fade: {
+      toValue: 1,
+      duration: 600, // Reduced duration for faster perceived performance
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    },
+    scale: {
+      toValue: 1,
+      duration: 600,
+      easing: Easing.out(Easing.back(1.1)), // Reduced bounce for smoother animation
+      useNativeDriver: true,
+    },
+    slide: {
+      toValue: 0,
+      duration: 600,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    },
+  }), []);
 
   // Wait for navigation to be ready
   useEffect(() => {
     const timer = setTimeout(() => {
       setNavigationReady(true);
-    }, 100);
+    }, 50); // Reduced delay for faster startup
     return () => clearTimeout(timer);
   }, []);
 
-  // Animate in when component mounts
+  // Animate in when component mounts - memoized animation
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 800,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnim, {
-        toValue: 1,
-        duration: 800,
-        easing: Easing.out(Easing.back(1.2)),
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 800,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fadeAnim, scaleAnim, slideAnim]);
+    const startAnimations = () => {
+      Animated.parallel([
+        Animated.timing(fadeAnim, animationConfig.fade),
+        Animated.timing(scaleAnim, animationConfig.scale),
+        Animated.timing(slideAnim, animationConfig.slide),
+      ]).start();
+    };
 
+    startAnimations();
+  }, [fadeAnim, scaleAnim, slideAnim, animationConfig]);
+
+  // Memoize redirect logic
+  const redirectPath = useMemo(() => {
+    if (!navigationReady || sessionLoading || roleNames.length === 0) return null;
+    
+    const userRole = roleNames[0];
+    switch (userRole) {
+      case "admin":
+        return "/(client)/";
+      case "staff":
+        return "/(staff)/";
+      case "client":
+        return "/(client)/";
+      default:
+        return "/(public)/unauthorized";
+    }
+  }, [navigationReady, sessionLoading, roleNames]);
+
+  // Handle redirect with optimized timing
   useEffect(() => {
-    if (navigationReady && !sessionLoading && roleNames.length > 0) {
-      // Add a small delay for better UX
+    if (redirectPath) {
       const redirectTimer = setTimeout(() => {
-        const userRole = roleNames[0];
-        switch (userRole) {
-          case "admin":
-            router.replace("/(client)/" as any);
-            break;
-          case "staff":
-            router.replace("/(staff)/" as any);
-            break;
-          case "client":
-            router.replace("/(client)/" as any);
-            break;
-          default:
-            router.replace("/(public)/unauthorized" as any);
-            break;
-        }
-      }, 1500);
+        router.replace(redirectPath as any);
+      }, 1000); // Reduced delay for better UX
 
       return () => clearTimeout(redirectTimer);
     }
-  }, [navigationReady, sessionLoading, roleNames, router]);
+  }, [redirectPath, router]);
 
   if (sessionLoading || !navigationReady) {
     return (

@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react'
-import { View, Text, ScrollView, SafeAreaView, Pressable, ActivityIndicator } from 'react-native'
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { View, Text, FlatList, SafeAreaView, Pressable, ActivityIndicator } from 'react-native'
 import { useRouter } from 'expo-router'
 import { QrCode, CheckCircle, Clock, XCircle } from 'lucide-react-native'
 import { getTicketsByStatus } from '@/src/mocks/tickets'
@@ -25,12 +25,12 @@ export default function TicketsScreen() {
     }
   }, [activeTab])
 
-  const handleOpenQR = (ticket: Ticket) => {
+  const handleOpenQR = useCallback((ticket: Ticket) => {
     try {
       router.push(`/tickets/${ticket.id}`)
     } catch {
     }
-  }
+  }, [router])
 
   const tabs = useMemo(() => {
     try {
@@ -48,12 +48,30 @@ export default function TicketsScreen() {
     }
   }, [])
 
-  const handleTabChange = (tabId: TicketStatus) => {
+  const handleTabChange = useCallback((tabId: TicketStatus) => {
     try {
       setActiveTab(tabId)
     } catch {
     }
-  }
+  }, [])
+
+  // Memoize render functions for FlatList
+  const renderTicket = useCallback(({ item }: { item: Ticket }) => (
+    <TicketCard
+      ticket={item}
+      onOpenQR={handleOpenQR}
+    />
+  ), [handleOpenQR])
+
+  const keyExtractor = useCallback((item: Ticket) => item.id, [])
+
+  const renderEmptyComponent = useCallback(() => (
+    <View className="flex-1 justify-center items-center py-20">
+      <Text className="text-gray-500 text-center">
+        No {activeTab} tickets found
+      </Text>
+    </View>
+  ), [activeTab])
 
   return (
     <SafeAreaView className="flex-1 bg-zinc-100">
@@ -78,9 +96,14 @@ export default function TicketsScreen() {
               <Pressable
                 key={tab.id}
                 onPress={() => handleTabChange(tab.id)}
-                className={`flex-row items-center px-4 py-2 rounded-full ${
-                  isActive ? 'bg-orange-500' : 'bg-gray-100'
-                }`}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
+                  borderRadius: 20,
+                  backgroundColor: isActive ? '#FF6B00' : '#F3F4F6'
+                }}
                 accessibilityRole="button"
                 accessibilityLabel={`Filter by ${tab.label}`}
               >
@@ -89,9 +112,11 @@ export default function TicketsScreen() {
                   color={isActive ? 'white' : '#6B7280'}
                 />
                 <Text
-                  className={`ml-2 font-medium ${
-                    isActive ? 'text-white' : 'text-gray-600'
-                  }`}
+                  style={{
+                    marginLeft: 8,
+                    fontWeight: '500',
+                    color: isActive ? 'white' : '#6B7280'
+                  }}
                 >
                   {tab.label}
                 </Text>
@@ -102,36 +127,32 @@ export default function TicketsScreen() {
       </View>
 
       {/* Tickets List */}
-      <ScrollView
-        className="flex-1"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
-      >
-        <View className="px-4">
-          {isLoading ? (
-            <View className="flex-1 justify-center items-center py-20">
-              <ActivityIndicator size="large" color="#FF6B00" />
-              <Text className="text-gray-500 text-center mt-4">
-                Loading tickets...
-              </Text>
-            </View>
-          ) : tickets.length === 0 ? (
-            <View className="flex-1 justify-center items-center py-20">
-              <Text className="text-gray-500 text-center">
-                No {activeTab} tickets found
-              </Text>
-            </View>
-          ) : (
-            tickets.map((ticket) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onOpenQR={handleOpenQR}
-              />
-            ))
-          )}
+      {isLoading ? (
+        <View className="flex-1 justify-center items-center py-20">
+          <ActivityIndicator size="large" color="#FF6B00" />
+          <Text className="text-gray-500 text-center mt-4">
+            Loading tickets...
+          </Text>
         </View>
-      </ScrollView>
+      ) : (
+        <FlatList
+          data={tickets}
+          renderItem={renderTicket}
+          keyExtractor={keyExtractor}
+          ListEmptyComponent={renderEmptyComponent}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 100 }}
+          getItemLayout={(data, index) => ({
+            length: 200,
+            offset: 200 * index,
+            index,
+          })}
+          removeClippedSubviews={true}
+          maxToRenderPerBatch={10}
+          windowSize={10}
+          initialNumToRender={5}
+        />
+      )}
     </SafeAreaView>
   )
 }

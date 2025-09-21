@@ -1,26 +1,38 @@
-import React from 'react'
-import { View, Text, Pressable, Image } from 'react-native'
+import React, { useCallback } from 'react'
+import { View, Text, Pressable } from 'react-native'
 import { Star, MapPin } from 'lucide-react-native'
 import { FeaturedPlace } from '@/src/mocks/clientHome'
+import OptimizedImage from '@/src/components/ui/OptimizedImage'
 
 interface PlaceCardProps {
   place: FeaturedPlace
   onPress?: () => void
 }
 
-export default function PlaceCard({ place, onPress }: PlaceCardProps) {
+const PlaceCardComponent = ({ place, onPress }: PlaceCardProps) => {
+  const handlePress = useCallback(() => {
+    onPress?.()
+  }, [onPress])
   return (
     <Pressable
-      onPress={onPress}
-      className="bg-white rounded-2xl  mb-4"
+      onPress={handlePress}
+      className="bg-white rounded-2xl mb-4"
       accessibilityRole="button"
       accessibilityLabel={`${place.name}, ${place.location}, ${place.priceLabel}`}
     >
       <View className="relative">
-        <Image
+        <OptimizedImage
           source={{ uri: place.image }}
-          className="w-full h-40 rounded-t-2xl"
+          style={{
+            width: '100%',
+            height: 160,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+          }}
           resizeMode="cover"
+          priority="high"
+          cachePolicy="memory-disk"
+          accessibilityLabel={`${place.name} image`}
         />
         <View className="absolute top-3 right-3 bg-orange-500 px-2 py-1 rounded-full">
           <Text className="text-white text-sm font-bold">{place.priceLabel}</Text>
@@ -44,7 +56,7 @@ export default function PlaceCard({ place, onPress }: PlaceCardProps) {
           {place.description}
         </Text>
         <Pressable
-          onPress={onPress}
+          onPress={handlePress}
           className="bg-orange-500 rounded-xl py-3"
           accessibilityRole="button"
           accessibilityLabel={`Book ${place.name}`}
@@ -57,3 +69,7 @@ export default function PlaceCard({ place, onPress }: PlaceCardProps) {
     </Pressable>
   )
 }
+
+PlaceCardComponent.displayName = 'PlaceCard';
+
+export default React.memo(PlaceCardComponent);
