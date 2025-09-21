@@ -8,3 +8,4 @@ export { Separator } from './separator';
 export { Checkbox } from './checkbox';
 export { BackgroundPattern } from './background-pattern';
 export { DotPattern } from './dot-pattern';
+export { LoadingSpinner, PulsingDots } from './loading-spinner';
