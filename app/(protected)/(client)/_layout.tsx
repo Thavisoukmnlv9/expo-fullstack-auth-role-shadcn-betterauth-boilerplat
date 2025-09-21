@@ -97,6 +97,15 @@ export default function ClientLayout() {
             },
           }}
         />
+        <Tabs.Screen
+          name="account/favorites"
+          options={{
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
+          }}
+        />
       </Tabs>
       </View>
     </RequireRole>

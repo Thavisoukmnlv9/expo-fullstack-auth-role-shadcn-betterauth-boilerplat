@@ -1,109 +1,185 @@
-import React from 'react'
-import { View, Text, ScrollView, SafeAreaView, Pressable, Alert } from 'react-native'
-import { User, Settings, HelpCircle, Globe, DollarSign } from 'lucide-react-native'
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, SafeAreaView, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProfileHeaderCard from '@/src/components/client/ProfileHeaderCard';
+import FavoritesCard from '@/src/components/client/FavoritesCard';
+import SettingsList from '@/src/components/client/SettingsList';
+import SelectionSheet from '@/src/components/client/SelectionSheet';
+import { accountMockData } from '@/src/mocks/account';
+
+interface Profile {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  language: string;
+  currency: string;
+}
+
+interface FavoriteItem {
+  id: string;
+  type: string;
+  title: string;
+  location: string;
+  rating: number;
+  priceLabel: string;
+  thumb: string;
+  features: string[];
+}
 
 export default function AccountScreen() {
-  const handleLanguageSelect = () => {
+  const router = useRouter();
+  const [profile, setProfile] = useState<Profile>(accountMockData.profile);
+  const [favorites, setFavorites] = useState<FavoriteItem[]>(accountMockData.favorites);
+  const [languageSheetVisible, setLanguageSheetVisible] = useState(false);
+  const [currencySheetVisible, setCurrencySheetVisible] = useState(false);
+
+  // Load saved preferences on mount
+  useEffect(() => {
+    loadPreferences();
+  }, []);
+
+  const loadPreferences = async () => {
+    try {
+      const savedLanguage = await AsyncStorage.getItem('user_language');
+      const savedCurrency = await AsyncStorage.getItem('user_currency');
+      
+      if (savedLanguage) {
+        setProfile(prev => ({ ...prev, language: savedLanguage }));
+      }
+      if (savedCurrency) {
+        setProfile(prev => ({ ...prev, currency: savedCurrency }));
+      }
+    } catch (error) {
+      console.log('Error loading preferences:', error);
+    }
+  };
+
+  const savePreference = async (key: string, value: string) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      console.log('Error saving preference:', error);
+    }
+  };
+
+  const handleSettingsPress = () => {
+    Alert.alert('Profile Settings', 'Profile settings feature coming soon!');
+  };
+
+  const handleFavoritePress = (item: FavoriteItem) => {
+    router.push(`/(client)/packages/show/${item.id}` as any);
+  };
+
+  const handleSeeAllFavorites = () => {
+    router.push('/(client)/account/favorites' as any);
+  };
+
+  const handleMyOrdersPress = () => {
+    Alert.alert('My Orders', 'Orders feature coming soon!');
+  };
+
+  const handleMyTicketsPress = () => {
+    router.push('/(client)/tickets' as any);
+  };
+
+  const handleLanguagePress = () => {
+    setLanguageSheetVisible(true);
+  };
+
+  const handleCurrencyPress = () => {
+    setCurrencySheetVisible(true);
+  };
+
+  const handleHelpPress = () => {
+    Alert.alert('Help & Support', 'Help feature coming soon!');
+  };
+
+  const handleLogoutPress = () => {
     Alert.alert(
-      'Language',
-      'Select your preferred language',
+      'Logout',
+      'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'English', onPress: () => console.log('English selected') },
-        { text: 'Spanish', onPress: () => console.log('Spanish selected') },
-        { text: 'French', onPress: () => console.log('French selected') }
+        { 
+          text: 'Logout', 
+          style: 'destructive',
+          onPress: () => {
+            // Handle logout logic here
+            Alert.alert('Logged out', 'You have been logged out successfully.');
+          }
+        }
       ]
-    )
-  }
+    );
+  };
 
-  const handleCurrencySelect = () => {
-    Alert.alert(
-      'Currency',
-      'Select your preferred currency',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'USD ($)', onPress: () => console.log('USD selected') },
-        { text: 'EUR (€)', onPress: () => console.log('EUR selected') },
-        { text: 'GBP (£)', onPress: () => console.log('GBP selected') }
-      ]
-    )
-  }
+  const handleLanguageSelect = (language: string) => {
+    setProfile(prev => ({ ...prev, language }));
+    savePreference('user_language', language);
+  };
 
-  const handleSupport = () => {
-    Alert.alert(
-      'Support',
-      'Contact our support team',
-      [{ text: 'OK' }]
-    )
-  }
+  const handleCurrencySelect = (currency: string) => {
+    setProfile(prev => ({ ...prev, currency }));
+    savePreference('user_currency', currency);
+  };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="px-4 py-4 border-b border-gray-200">
-        <Text className="text-gray-900 font-bold text-xl">Account</Text>
-      </View>
-      
+    <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView 
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
         <View className="px-4 pt-6">
-          {/* Profile Section */}
-          <View className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-6">
-            <View className="flex-row items-center mb-4">
-              <View className="w-16 h-16 bg-orange-100 rounded-full items-center justify-center mr-4">
-                <User size={32} color="#FF6B00" />
-              </View>
-              <View>
-                <Text className="text-gray-900 font-bold text-lg">John Doe</Text>
-                <Text className="text-gray-600 text-sm">john.doe@example.com</Text>
-              </View>
-            </View>
-          </View>
+          {/* Profile Header Card */}
+          <ProfileHeaderCard
+            name={profile.name}
+            email={profile.email}
+            avatarUrl={profile.avatarUrl}
+            onSettingsPress={handleSettingsPress}
+          />
 
-          {/* Settings Section */}
-          <View className="space-y-4">
-            <Pressable
-              onPress={handleLanguageSelect}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex-row items-center justify-between"
-              accessibilityRole="button"
-              accessibilityLabel="Change language"
-            >
-              <View className="flex-row items-center">
-                <Globe size={24} color="#6B7280" />
-                <Text className="text-gray-900 font-medium ml-3">Language</Text>
-              </View>
-              <Text className="text-gray-500">English</Text>
-            </Pressable>
+          {/* Favorites Card */}
+          <FavoritesCard
+            favorites={favorites}
+            onItemPress={handleFavoritePress}
+            onSeeAllPress={handleSeeAllFavorites}
+          />
 
-            <Pressable
-              onPress={handleCurrencySelect}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex-row items-center justify-between"
-              accessibilityRole="button"
-              accessibilityLabel="Change currency"
-            >
-              <View className="flex-row items-center">
-                <DollarSign size={24} color="#6B7280" />
-                <Text className="text-gray-900 font-medium ml-3">Currency</Text>
-              </View>
-              <Text className="text-gray-500">USD</Text>
-            </Pressable>
-
-            <Pressable
-              onPress={handleSupport}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex-row items-center justify-between"
-              accessibilityRole="button"
-              accessibilityLabel="Get support"
-            >
-              <View className="flex-row items-center">
-                <HelpCircle size={24} color="#6B7280" />
-                <Text className="text-gray-900 font-medium ml-3">Support</Text>
-              </View>
-            </Pressable>
-          </View>
+          {/* Settings List */}
+          <SettingsList
+            language={profile.language}
+            currency={profile.currency}
+            onMyOrdersPress={handleMyOrdersPress}
+            onMyTicketsPress={handleMyTicketsPress}
+            onLanguagePress={handleLanguagePress}
+            onCurrencyPress={handleCurrencyPress}
+            onHelpPress={handleHelpPress}
+            onLogoutPress={handleLogoutPress}
+          />
         </View>
       </ScrollView>
+
+      {/* Language Selection Sheet */}
+      <SelectionSheet
+        visible={languageSheetVisible}
+        title="Select Language"
+        options={accountMockData.settings.languages}
+        selectedValue={profile.language}
+        onSelect={handleLanguageSelect}
+        onClose={() => setLanguageSheetVisible(false)}
+      />
+
+      {/* Currency Selection Sheet */}
+      <SelectionSheet
+        visible={currencySheetVisible}
+        title="Select Currency"
+        options={accountMockData.settings.currencies}
+        selectedValue={profile.currency}
+        onSelect={handleCurrencySelect}
+        onClose={() => setCurrencySheetVisible(false)}
+      />
     </SafeAreaView>
-  )
+  );
 }
