@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Pressable } from 'react-native'
 import { QrCode, Calendar, Clock, Timer } from 'lucide-react-native'
-import { Ticket, TicketStatus } from '@/src/types/tickets'
+import { Ticket } from '@/src/types/tickets'
 import { useCountdown } from '@/src/hooks/useCountdown'
 
 interface TicketCardProps {
@@ -23,7 +23,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onOpenQR }) => {
 
 
   return (
-    <View className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-4">
+    <View className="bg-white rounded-3xl  p-6 mb-4">
       {/* Package Name and Status */}
       <View className="flex-row items-center justify-between mb-3">
         <View className="flex-1">

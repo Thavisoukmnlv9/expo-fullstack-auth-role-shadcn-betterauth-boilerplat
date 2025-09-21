@@ -41,7 +41,7 @@ export default function FavoritesScreen() {
   if (favorites.length === 0) {
     return (
       <SafeAreaView className="flex-1 bg-gray-50">
-        <View className="px-4 py-4 border-b border-gray-200">
+        <View className="px-4 py-4 ">
           <View className="flex-row items-center">
             <Pressable
               onPress={() => router.back()}
@@ -52,7 +52,7 @@ export default function FavoritesScreen() {
             <Text className="text-xl font-bold text-gray-900">My Favorites</Text>
           </View>
         </View>
-        
+
         <View className="flex-1 items-center justify-center px-6">
           <Heart size={64} color="#E5E7EB" />
           <Text className="text-gray-500 text-center mt-4 mb-2 text-lg">
@@ -74,7 +74,7 @@ export default function FavoritesScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="px-4 py-4 border-b border-gray-200">
+      <View className="px-4 py-4 0">
         <View className="flex-row items-center">
           <Pressable
             onPress={() => router.back()}
@@ -85,8 +85,8 @@ export default function FavoritesScreen() {
           <Text className="text-xl font-bold text-gray-900">My Favorites</Text>
         </View>
       </View>
-      
-      <ScrollView 
+
+      <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -96,7 +96,7 @@ export default function FavoritesScreen() {
             <Pressable
               key={item.id}
               onPress={() => handleFavoritePress(item)}
-              className="bg-white rounded-3xl p-4 mb-4 shadow-sm border border-gray-100"
+              className="bg-white rounded-3xl p-4 mb-4 shadow-sm border"
               style={({ pressed }) => [
                 { transform: [{ scale: pressed ? 0.98 : 1 }] }
               ]}

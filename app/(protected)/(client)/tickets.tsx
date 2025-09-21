@@ -56,7 +56,7 @@ export default function TicketsScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-zinc-100">
       {/* Header */}
       <View className="px-4 py-4 border-b border-gray-200">
         <View className="flex-row items-center justify-between">

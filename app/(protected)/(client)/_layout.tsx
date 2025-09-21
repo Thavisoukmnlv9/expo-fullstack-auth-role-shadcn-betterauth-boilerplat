@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import RequireRole from "@/src/auth/middleware/RequireRole";
-import { Home, Compass, Ticket, User } from "lucide-react-native";
+import { Home, Compass, Ticket, User, ShoppingBag } from "lucide-react-native";
 import { View } from "react-native";
 
 export default function ClientLayout() {
@@ -55,6 +55,13 @@ export default function ClientLayout() {
           }}
         />
         <Tabs.Screen
+          name="orders"
+          options={{
+            title: "My Orders",
+            tabBarIcon: ({ color, size }) => <ShoppingBag size={size} color={color} />,
+          }}
+        />
+        <Tabs.Screen
           name="account"
           options={{
             title: "Account",
@@ -90,6 +97,15 @@ export default function ClientLayout() {
         />
         <Tabs.Screen
           name="tickets/[ticketId]/index"
+          options={{
+            href: null,
+            tabBarStyle: {
+              display: 'none',
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="orders/[id]"
           options={{
             href: null,
             tabBarStyle: {
